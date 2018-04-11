@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ x$PREFIX == x ]; then
 	echo PREFIX not set
 	exit
@@ -26,24 +28,12 @@ cmake \
 	-D MODULE_Mapping=ON \
 	-D MODULE_PointSet=ON \
 	-D MODULE_Scripting=ON \
-	-D CMAKE_BUILD_TYPE=Release \
-	-D DEPENDS_VTK_DIR:PATH=$PREFIX/lib/cmake/vtk-9.0 \
+	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
+	-D DEPENDS_VTK_DIR:PATH=$PREFIX/lib/cmake/vtk-8.1 \
 	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX ..
-if [ ! $? ]; then
-	echo failed
-	exit 1
-fi
 
 echo build MIRTK ...
 make -j 8 
-if [ ! $? ]; then
-	echo failed
-	exit 1
-fi
 
 echo install MIRTK ...
 make install
-if [ ! $? ]; then
-	echo failed
-	exit 1
-fi

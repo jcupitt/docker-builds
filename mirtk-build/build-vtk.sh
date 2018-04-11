@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 VTK_RELEASE_VERSION=8.1
 VTK_MICRO_VERSION=0
 VTK_VERSION=$VTK_RELEASE_VERSION.$VTK_MICRO_VERSION
@@ -13,10 +15,6 @@ fi
 if [ ! -f downloads/VTK-$VTK_VERSION.tar.gz ]; then 
 	echo download VTK ...
 	(cd downloads; wget $VTK_URL/VTK-$VTK_VERSION.tar.gz)
-	if [ ! $? ]; then
-		echo failed
-		exit 1
-	fi
 fi
 
 if [ ! -d VTK-$VTK_VERSION ]; then
@@ -33,23 +31,11 @@ cd build
 
 echo configure VTK ...
 cmake \
-	-D CMAKE_BUILD_TYPE=Release \
+	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
 	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX ..
-if [ ! $? ]; then
-	echo failed
-	exit 1
-fi
 
 echo build VTK ...
 make -j 8 
-if [ ! $? ]; then
-	echo failed
-	exit 1
-fi
 
 echo install VTK ...
 make install
-if [ ! $? ]; then
-	echo failed
-	exit 1
-fi
