@@ -1,0 +1,5 @@
+MIRTK
+downloads/*
+VTK-*
+eigen-*
+.*.swp
