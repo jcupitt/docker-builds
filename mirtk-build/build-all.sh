@@ -1,7 +1,8 @@
 #!/bin/bash
 
 export PREFIX=~/mirtk
-export BUILD_TYPE=Debug
+# export BUILD_TYPE=Debug
+export BUILD_TYPE=Release
 
 export MIRTK_ROOT=$PREFIX
 export PATH="$MIRTK_ROOT/bin:$PATH"
