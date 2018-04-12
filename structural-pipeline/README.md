@@ -1,5 +1,7 @@
 # Build and run the dHCP pipeline in docker
 
+** now part of https://github.com/biomedia/dhcp-structural-pipeline **
+
 This repro builds and runs the dHCP pipeline inside a docker container. See 
 https://github.com/DevelopingHCP/structural-pipeline
 
