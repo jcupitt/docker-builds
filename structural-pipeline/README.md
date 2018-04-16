@@ -46,13 +46,13 @@ Test:
 
 Ask to build branch v1.1 of the pipeline:
 
-	sudo ./build.sh v1.1
+	./build.sh v1.1
 
 ## Run the pipeline
 
 Run the `dhcp-pipeline.sh` script:
 
-	sudo ./docker-dhcp-pipeline.sh v1.1 subject1 session1 44 \
+	./docker-dhcp-pipeline.sh v1.1 subject1 session1 44 \
 	  -T2 subject1-T2.nii.gz -T1 subject1-T1.nii.gz -t 8
 
 ## How it works

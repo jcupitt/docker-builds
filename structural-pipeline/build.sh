@@ -18,7 +18,6 @@ fi
 docker pull ubuntu:xenial
 
 # build the container, including prerequisites
-docker build -t build-structural-pipeline container
-
-# run the build for the selected version
-docker run --rm -t -v $PWD/$VERSION:/data -e "VERSION=$VERSION" build-structural-pipeline sh -c "./build.sh"
+docker build -t biomedia/dhcp-structural-pipeline:$VERSION \
+	--build-arg VERSION=$VERSION \
+	.
