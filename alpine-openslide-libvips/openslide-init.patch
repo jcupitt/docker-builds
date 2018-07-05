@@ -1,0 +1,13 @@
+diff -Naur openslide-3.4.1-orig/src/openslide.c openslide-3.4.1/src/openslide.c
+--- openslide-3.4.1-orig/src/openslide.c	2015-04-20 20:32:12.000000000 +0100
++++ openslide-3.4.1/src/openslide.c	2018-03-23 16:47:13.788824940 +0000
+@@ -61,7 +61,9 @@
+     g_thread_init(NULL);
+   }
+   // initialize GObject
++#if !GLIB_CHECK_VERSION(2, 36, 0)
+   g_type_init();
++#endif
+   // init libxml2
+   xmlInitParser();
+   // parse debug options
