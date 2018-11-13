@@ -53,4 +53,8 @@ RUN apk add \
 	ruby-dev \
 	ruby-irb
 
-RUN gem install rdoc ruby-vips
+# for some reason rdoc install fails ... ignore the error
+RUN gem install rdoc || exit 0
+
+# and now ruby-vips can go on
+RUN gem install ruby-vips

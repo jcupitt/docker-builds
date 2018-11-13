@@ -14,8 +14,15 @@ RUN yum install -y \
 	expat-devel \
 	zlib-devel 
 
-ARG VIPS_VERSION=8.6.3
-ARG VIPS_URL=https://github.com/jcupitt/libvips/releases/download
+# openslide is in epel -- extra packages for enterprise linux
+RUN yum install -y \
+	https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+RUN yum install -y \
+	openslide-devel 
+
+ARG VIPS_VERSION=8.7.1
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN cd /usr/local/src \
 	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
