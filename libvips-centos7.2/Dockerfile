@@ -1,8 +1,11 @@
 FROM centos:centos7.2.1511
 
-# general build stuff
+# yum-plugin-ovl helps yum work with the docker overlay filesystem 
 RUN yum update -y \
-	&& yum groupinstall -y "Development Tools" \
+  && yum -y install yum-plugin-ovl 
+
+# general build stuff 
+RUN yum groupinstall -y "Development Tools" \
 	&& yum install -y wget tar
 
 # stuff we need to build our own libvips ... this is a pretty basic selection
@@ -17,9 +20,10 @@ RUN yum install -y \
 # openslide is in epel -- extra packages for enterprise linux
 RUN yum install -y \
 	https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
 RUN yum install -y \
 	openslide-devel 
+RUN yum install -y \
+	libgsf-devel
 
 ARG VIPS_VERSION=8.7.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
