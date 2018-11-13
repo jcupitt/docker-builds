@@ -22,6 +22,8 @@ RUN yum install -y \
 	https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install -y \
 	openslide-devel 
+
+# dzsave needs libgsf
 RUN yum install -y \
 	libgsf-devel
 
