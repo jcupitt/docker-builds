@@ -44,12 +44,12 @@ RUN cd /tmp/vips-${VIPS_VERSION} \
 	&& make install 
 
 RUN apk add \
-	python-dev \
-  py-pip
+	python3-dev \
+	py3-pip
 
 # and now pyvips can go on
-RUN pip install --upgrade pip \
-  && pip install pyvips
+RUN pip3 install --upgrade pip \
+  && pip3 install pyvips
 
 WORKDIR /data
 
