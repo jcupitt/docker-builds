@@ -9,7 +9,7 @@ to replace it with a more recent ruby though.
 
 	docker build -t ruby-vips-centos7.2 .
 
-	docker run -it --rm ruby-vips-centos7.2 
+	docker run -it --rm -v $PWD:/data ruby-vips-centos7.2 
 
 
 
