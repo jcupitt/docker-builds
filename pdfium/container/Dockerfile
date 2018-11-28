@@ -1,7 +1,6 @@
-FROM ubuntu:artful
+FROM ubuntu:bionic
 
 RUN \
-  dpkg --add-architecture i386 && \
   apt-get update && \
   apt-get install -y \
     build-essential \
@@ -12,6 +11,7 @@ RUN \
     libtool \
     cmake \
     glib2.0-dev \
+    libatspi2.0-dev \
     wget 
 
 # Create a default, non-root 'build' user
