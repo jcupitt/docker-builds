@@ -2,7 +2,7 @@
 
 See
 
-https://github.com/jcupitt/libvips/issues/689
+https://github.com/libvips/libvips/issues/689
 
 # Docker build
 

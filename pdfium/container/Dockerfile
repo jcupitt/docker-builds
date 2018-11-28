@@ -1,7 +1,6 @@
 FROM ubuntu:artful
 
 RUN \
-  dpkg --add-architecture i386 && \
   apt-get update && \
   apt-get install -y \
     build-essential \
