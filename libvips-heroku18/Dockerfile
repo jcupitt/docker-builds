@@ -26,6 +26,7 @@ RUN apt-get install -y \
 	librsvg2-dev \
 	libpng-dev \
 	libjpeg-dev \
+	libtiff5-dev \
 	libexif-dev \
 	liblcms2-dev \
 	libxml2-dev \
@@ -65,6 +66,11 @@ RUN cd /usr/src \
 	&& make \
 	&& make install
 
+# extract libpdfium built for heroku
+COPY libpdfium-master-linux-x64.tar.gz /usr/src
+RUN cd /usr/src/vips \
+	&& tar xf ../libpdfium-master-linux-x64.tar.gz 
+
 ARG VIPS_VERSION=8.7.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
@@ -72,15 +78,16 @@ RUN cd /usr/src \
 	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
+	&& export PKG_CONFIG_PATH=/usr/src/vips/lib/pkgconfig \
 	&& ./configure --prefix=/usr/src/vips --disable-gtk-doc \
 	&& make \
 	&& make install
 
 # clean the build area ready for packaging
 RUN cd /usr/src/vips \
-  && rm bin/gif* bin/orc* bin/gsf* bin/batch_* bin/vips-8.7 bin/vipsprofile \
-  && rm bin/light_correct bin/shrink_width \
-  && strip lib/*.a lib/lib*.so* \
-  && rm -rf share/gtk-doc \
-  && rm -rf share/man \
-  && rm -rf share/thumbnailers 
+	&& rm bin/gif* bin/orc* bin/gsf* bin/batch_* bin/vips-8.7 \
+	&& rm bin/vipsprofile bin/light_correct bin/shrink_width \
+	&& strip lib/*.a lib/lib*.so* \
+	&& rm -rf share/gtk-doc \
+	&& rm -rf share/man \
+	&& rm -rf share/thumbnailers 
