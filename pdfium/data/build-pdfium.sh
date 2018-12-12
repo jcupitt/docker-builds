@@ -21,17 +21,15 @@ gclient sync --no-history
 
 cd pdfium
 
+# Change pdfium library from static to shared
+sed -i.bak 's/^jumbo_static_library("pdfium")/jumbo_component("pdfium")/' BUILD.gn
+
+# Fix symbol visibility – files are built with -fvisiblity=hidden
+sed -i.bak 's/^#define FPDF_EXPORT$/#define FPDF_EXPORT  __attribute__((visibility("default")))/' public/fpdfview.h
+
 # see https://pdfium.googlesource.com/pdfium/
+# and https://github.com/lukas-w/pdfium-build/blob/master/args.gn.linux
 
-# is_debug = true  # Enable debugging features.
-# pdf_use_skia = false  # Set true to enable experimental skia backend.
-# pdf_use_skia_paths = false  
-# pdf_enable_xfa = true  # Set false to remove XFA support (implies JS support).
-# pdf_enable_v8 = true  # Set false to remove Javascript support.
-# pdf_is_standalone = true  # Set for a non-embedded build.
-# is_component_build = false # Disable component build (must be false)
-# clang_use_chrome_plugins = false  # Currently must be false.
-
-gn gen "${BUILD_RES}" --args='pdf_bundle_freetype = true pdf_enable_v8 = false pdf_enable_xfa = false pdf_use_skia = false pdf_use_skia_paths = false is_component_build = false pdf_is_complete_lib = true use_sysroot = false'
+gn gen "${BUILD_RES}" --args='treat_warnings_as_errors = false is_debug = false pdf_enable_v8 = false pdf_enable_xfa = false pdf_use_skia = false pdf_use_skia_paths = false pdf_is_standalone = true is_component_build = false clang_use_chrome_plugins = false is_clang = false use_cxx11 = true'
 
 ninja -C "${BUILD_RES}"

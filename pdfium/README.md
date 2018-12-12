@@ -1,8 +1,12 @@
 # Build PDFium
 
-See
+See:
 
 https://github.com/libvips/libvips/issues/689
+
+https://github.com/lukas-w/pdfium-build
+
+https://blog.openinworld.com/2017/11/pharo-pdf-part-1/
 
 # Docker build
 
@@ -16,5 +20,11 @@ Should (eventually) generate:
 
 # Native build
 
-You can just run the `data/build-pdfium.sh` script directly. Seems to work 
-on 17.10 at least. 
+For a native build:
+
+  cd data
+  ./build-pdfium.sh
+  ./package.sh
+
+To make a tar file in `data/package`. Seems to work on 18.10.
+

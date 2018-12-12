@@ -13,10 +13,11 @@ fi
 
 mkdir -p ${TARGET_PDFIUM}
 mkdir -p "${TARGET_PDFIUM}/lib"
-mkdir -p "${TARGET_PDFIUM}/lib/pdfium-obj"
 mkdir -p "${TARGET_PDFIUM}/include"
 
-find ${BUILD_RES} -name '*.a' -not -path "**/testing/*" -not -path "**/build/*" -not -name 'libtest_support.a' -exec cp {} ${TARGET_PDFIUM}/lib/pdfium-obj \;
+cp out/Release_linux-x64/libpdfium.so  ${TARGET_PDFIUM}/lib
+cp out/Release_linux-x64/libc++.so  ${TARGET_PDFIUM}/lib
+cp out/Release_linux-x64/libicuuc.so  ${TARGET_PDFIUM}/lib
 
 cp public/*.h ${TARGET_PDFIUM}/include
 
