@@ -29,8 +29,9 @@ RUN cd /usr/local/src \
 ARG NIP2_VERSION=8.7.0
 ARG NIP2_URL=https://github.com/libvips/nip2/releases/download
 
-# stuff we need to build our own nip2 
+# stuff we need to build our own nip2, plus the debugger
 RUN yum install -y \
+	gdb \
 	gtk2-devel \
 	libxml2-devel \
 	bison \
