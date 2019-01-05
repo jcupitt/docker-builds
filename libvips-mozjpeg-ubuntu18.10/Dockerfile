@@ -1,5 +1,19 @@
 FROM ubuntu:cosmic
 
+ARG MOZJPEG_VERSION=3.3.1
+ARG VIPS_VERSION=8.7.2
+
+ARG MOZJPEG_URL=https://github.com/mozilla/mozjpeg/archive
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+
+# mozjpeg installs to /opt/mozjpeg ... we need that on PKG_CONFIG_PATH so
+# that libvips configure can find it
+ENV PKG_CONFIG_PATH /opt/mozjpeg/lib64/pkgconfig
+
+# libvips installs to /usr/local by default .. /usr/local/bin is on the
+# default path in ubuntu, but /usr/local/lib is not
+ENV LD_LIBRARY_PATH /usr/local/lib
+
 # basic build tools
 RUN apt-get update \
   && apt-get install -y \
@@ -12,9 +26,6 @@ RUN apt-get update \
     wget \
     git \
     pkg-config 
-
-ARG MOZJPEG_VERSION=3.3.1
-ARG MOZJPEG_URL=https://github.com/mozilla/mozjpeg/archive
 
 RUN cd /usr/local/src \
   && wget ${MOZJPEG_URL}/v${MOZJPEG_VERSION}.tar.gz \
@@ -41,19 +52,17 @@ RUN apt-get install -y \
   liblcms2-dev \
   liborc-dev 
 
-ARG VIPS_VERSION=8.7.2
-ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
-
 RUN cd /usr/local/src \
   && wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
   && tar xzf vips-${VIPS_VERSION}.tar.gz 
 
-# we must tell libvips to build against the libjpeg in /opt/mozjpeg
+# libvips is marked up for auto-vectorisation ... -O3 is the optimisation
+# level that enables this for gcc
 RUN cd /usr/local/src/vips-${VIPS_VERSION} \
-  && export PKG_CONFIG_PATH=/opt/mozjpeg/lib64/pkgconfig:$PKG_CONFIG_PATH \
-  && ./configure \
+  && CFLAGS=-O3 CXXFLAGS=-O3 ./configure \
   && make \
   && make install
 
-
-
+WORKDIR /data
+ENTRYPOINT ["/usr/local/bin/vipsthumbnail"]
+CMD ["--help"]
