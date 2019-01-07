@@ -26,8 +26,9 @@ RUN cd /usr/local/src \
 	&& make \
 	&& make install
 
-ARG NIP2_VERSION=8.7.0
-ARG NIP2_URL=https://github.com/libvips/nip2/releases/download
+ARG NIP2_VERSION=8.7.1
+#ARG NIP2_URL=https://github.com/libvips/nip2/releases/download
+ARG NIP2_URL=http://www.rollthepotato.net/~john
 
 # stuff we need to build our own nip2, plus the debugger
 RUN yum install -y \
@@ -38,11 +39,11 @@ RUN yum install -y \
 	flex 
 
 RUN cd /usr/local/src \
-	&& wget ${NIP2_URL}/v${NIP2_VERSION}/nip2-${NIP2_VERSION}.tar.gz \
+	&& wget ${NIP2_URL}/nip2-${NIP2_VERSION}.tar.gz \
 	&& tar xzf nip2-${NIP2_VERSION}.tar.gz \
 	&& cd nip2-${NIP2_VERSION} \
 	&& export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
-	&& CFLAGS=-g ./configure \
+	&& ./configure \
 	&& make \
 	&& make install
 
