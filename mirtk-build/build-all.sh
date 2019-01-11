@@ -10,6 +10,6 @@ export LD_LIBRARY_PATH="$MIRTK_ROOT/lib:$LD_LIBRARY_PATH"
 
 mkdir -p downloads
 
-./build-eigen.sh && \
-	./build-vtk.sh && \
-	./build-mirtk.sh
+./build-eigen.sh \
+  && ./build-vtk.sh \
+	&& ./build-mirtk.sh

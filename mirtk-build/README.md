@@ -18,6 +18,6 @@ change the VTK version -- same for eigen and MIRTK.
 
 
 ```
-# docker build -t john/mirtk:centos .
+docker build -t john/mirtk:centos .
 ```
 
