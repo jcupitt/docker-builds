@@ -1,11 +1,5 @@
 FROM alpine:latest
 
-ARG OPENSLIDE_VERSION=3.4.1
-ARG OPENSLIDE_URL=https://github.com/openslide/openslide/releases/download
-
-ARG VIPS_VERSION=8.7.3
-ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
-
 RUN apk update && apk upgrade
 
 RUN apk add build-base \
@@ -35,22 +29,26 @@ RUN apk add build-base \
 	openexr-dev \
 	gtk-doc
 
-COPY openslide-init.patch /tmp
+WORKDIR /usr/local/src
 
-RUN wget -O- ${OPENSLIDE_URL}/v${OPENSLIDE_VERSION}/openslide-${OPENSLIDE_VERSION}.tar.gz | tar xzC /tmp
-RUN cd /tmp \
-	&& patch -p0 </tmp/openslide-init.patch \
+ARG OPENSLIDE_VERSION=3.4.1
+ARG OPENSLIDE_URL=https://github.com/openslide/openslide/releases/download
+
+COPY openslide-init.patch /usr/local/src
+RUN wget ${OPENSLIDE_URL}/v${OPENSLIDE_VERSION}/openslide-${OPENSLIDE_VERSION}.tar.gz \
+	&& tar xf openslide-${OPENSLIDE_VERSION}.tar.gz \
+	&& patch -p0 <openslide-init.patch \
         && cd openslide-${OPENSLIDE_VERSION} \
-	&& ./configure --disable-static \
+	&& ./configure \
 	&& make \
 	&& make install 
 
-RUN wget -O- ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz | tar xzC /tmp
-RUN cd /tmp/vips-${VIPS_VERSION} \
-	&& ./configure --disable-static --disable-debug \
+ARG VIPS_VERSION=8.7.3
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
+	&& tar xf vips-${VIPS_VERSION}.tar.gz \
+	&& cd vips-${VIPS_VERSION} \
+	&& ./configure \
 	&& make V=0 \
 	&& make install 
-
-RUN cd /tmp/vips-${VIPS_VERSION} \
-	&& make check \
-	|| cat test/test-suite.log

@@ -2,20 +2,20 @@
 
 # Rebuild the image
 
-	docker pull alpine:latest
+    docker pull alpine:latest
 
-	docker build -t libvips-openslide-alpine .
+    docker build -t libvips-openslide-alpine .
 
 # Run
 
-  docker run -it libvips-openslide-alpine vips
+    docker run --rm -it -v /home/john/pics/openslide:/data libvips-openslide-alpine bash
 
 # Debug 
 
-  docker run \
-    --security-opt seccomp=unconfined \
-    --rm \
-    -it libvips-openslide-alpine bash
-  apk add gdb glib-dbg
-  gdb vips
+    docker run \
+      --security-opt seccomp=unconfined \
+      --rm \
+      -it libvips-openslide-alpine bash
+    apk add gdb glib-dbg
+    gdb vips
 
