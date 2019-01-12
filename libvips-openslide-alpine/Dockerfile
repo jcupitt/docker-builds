@@ -1,24 +1,10 @@
-# build with
-#    docker build -t alpine-openslide-libvips:latest alpine-openslide-libvips
-
-# run with
-#    docker run -it alpine-openslide-libvips vips
-
-# debug with
-#    docker run \
-#       --cap-add=SYS_PTRACE \
-#       --security-opt seccomp=unconfined \
-#       -it alpine-openslide-libvips bash
-#    apk add gdb glib-dbg
-#    gdb vips
-
 FROM alpine:latest
 
 ARG OPENSLIDE_VERSION=3.4.1
 ARG OPENSLIDE_URL=https://github.com/openslide/openslide/releases/download
 
-ARG VIPS_VERSION=8.6.3
-ARG VIPS_URL=https://github.com/jcupitt/libvips/releases/download
+ARG VIPS_VERSION=8.7.3
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN apk update && apk upgrade
 
@@ -55,13 +41,13 @@ RUN wget -O- ${OPENSLIDE_URL}/v${OPENSLIDE_VERSION}/openslide-${OPENSLIDE_VERSIO
 RUN cd /tmp \
 	&& patch -p0 </tmp/openslide-init.patch \
         && cd openslide-${OPENSLIDE_VERSION} \
-	&& ./configure --prefix=/usr --disable-static \
+	&& ./configure --disable-static \
 	&& make \
 	&& make install 
 
 RUN wget -O- ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz | tar xzC /tmp
 RUN cd /tmp/vips-${VIPS_VERSION} \
-	&& ./configure --prefix=/usr --disable-static --disable-debug \
+	&& ./configure --disable-static --disable-debug \
 	&& make V=0 \
 	&& make install 
 
