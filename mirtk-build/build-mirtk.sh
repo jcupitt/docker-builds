@@ -14,6 +14,7 @@ fi
 MIRTK_SOURCE_DIR="$PWD/MIRTK"
 cd $MIRTK_SOURCE_DIR
 
+git pull
 git submodule update --init
 
 mkdir -p build
@@ -23,11 +24,14 @@ cd build
 echo configure MIRTK ...
 cmake \
 	-D WITH_VTK=ON \
+	-D WITH_PNG=ON \
+	-D WITH_TBB=ON \
 	-D MODULE_Deformable=ON \
 	-D MODULE_DrawEM=ON \
 	-D MODULE_Mapping=ON \
 	-D MODULE_PointSet=ON \
 	-D MODULE_Scripting=ON \
+	-D MODULE_Viewer=ON \
 	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
 	-D DEPENDS_VTK_DIR:PATH=$PREFIX/lib/cmake/vtk-8.1 \
 	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX ..
