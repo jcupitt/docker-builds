@@ -1,5 +1,7 @@
 # Make a pyvips / python3 stack
 
+python3 is a Debian stretch image with py3 preinstalled.
+
 # Rebuild the image
 
   docker pull python:3
