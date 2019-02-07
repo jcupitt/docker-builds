@@ -5,3 +5,5 @@ RUN apt-get update \
 	&& apt-get install -y libvips
 
 RUN pip install pyvips
+
+WORKDIR /data

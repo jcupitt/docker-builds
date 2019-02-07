@@ -10,5 +10,5 @@ python3 is a Debian stretch image with py3 preinstalled.
 
 # Run the stack
 
-	docker run --rm -it pyvips-python3
+	docker run --rm -it -v $PWD:/data pyvips-python3
 
