@@ -1,18 +1,17 @@
-# Make a php-vips / nginx / ubuntu 16.04 stack
+# Make ruby-vips for centos6
 
-This doesn't work at the moment -- looks like glib 2.28.4 (the centos glib) is 
-too old, perhaps?
+You have to make your own libgsf, since the centos6 one is too old.
 
 # Rebuild the image
 
-	docker pull centos:6
+    docker pull centos:6
 
-	docker build -t ruby-vips-centos6 .
+    docker build -t ruby-vips-centos6 .
 
 # Run the demo
 
-	docker run --rm -t \
-		-v $PWD:/data \
-		ruby-vips-centos6 \
-		./wobble.rb test.jpg x.jpg
+    docker run --rm -t \
+      -v $PWD:/data \
+      ruby-vips-centos6 \
+      ./wobble.rb test.jpg x.jpg
 
