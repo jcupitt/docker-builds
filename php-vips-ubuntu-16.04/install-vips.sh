@@ -5,7 +5,7 @@ version_minor=$2
 version_micro=$3
 shift; shift; shift; 
 
-url=https://github.com/jcupitt/libvips/releases/download
+url=https://github.com/libvips/libvips/releases/download
 version=$version_major.$version_minor.$version_micro
 
 set -e

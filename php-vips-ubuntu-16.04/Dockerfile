@@ -38,7 +38,7 @@ RUN \
 WORKDIR /build
 COPY install-vips.sh /build
 RUN \
-  ./install-vips.sh 8 6 3
+  ./install-vips.sh 8 7 4
 
 # install the php extension that links it to libvips
 RUN \
