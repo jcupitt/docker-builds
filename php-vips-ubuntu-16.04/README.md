@@ -8,7 +8,7 @@
 
 # Run composer to fetch php-vips
 
-	docker run --rm -t \
+	docker run -t \
 		-v $PWD:/data \
 		php-vips-ubuntu-16.04 \
 		composer install
