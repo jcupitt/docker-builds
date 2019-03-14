@@ -45,8 +45,8 @@ ARG VIPS_URL=https://github.com/libvips/libvips/archive
 RUN wget ${VIPS_URL}/master.zip 
 RUN unzip -qq master.zip \
 	&& cd libvips-master \
-	&& ./autogen.sh --disable-static --disable-debug \
-		--disable-introspection \
+	&& CFLAGS=-O3 CXXFLAGS=-O3 ./autogen.sh \
+		--disable-static --disable-debug --disable-introspection \
 	&& make V=0 \
 	&& make install 
 
