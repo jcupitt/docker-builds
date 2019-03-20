@@ -14,14 +14,13 @@ RUN yum install -y \
 	expat-devel \
 	zlib-devel 
 
-ARG VIPS_VERSION=8.7.2
+ARG VIPS_VERSION=8.7.4
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN cd /usr/local/src \
 	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
-	&& echo -n "GCC version "; gcc --version \
 	&& ./configure \
 	&& make \
 	&& make install
