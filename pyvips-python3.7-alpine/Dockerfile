@@ -1,9 +1,9 @@
 FROM alpine:latest
 
-ARG VIPS_VERSION=8.7.1
+ARG VIPS_VERSION=8.8.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-ARG PYTHON_VERSION=3.7.1
+ARG PYTHON_VERSION=3.7.3
 ARG PYTHON_URL=https://www.python.org/ftp/python
 
 RUN apk update && apk upgrade
@@ -60,7 +60,7 @@ RUN cd /tmp \
 
 # and now pyvips can go on
 RUN pip3.7 install --upgrade pip \
-  && pip3.7 install pyvips
+	&& pip3.7 install pyvips
 
 WORKDIR /data
 
