@@ -1,6 +1,7 @@
 FROM alpine:latest
 
-RUN apk update && apk upgrade
+RUN apk update \
+	&& apk upgrade
 
 RUN apk add build-base \
 	autoconf \
@@ -43,7 +44,7 @@ RUN wget ${OPENSLIDE_URL}/v${OPENSLIDE_VERSION}/openslide-${OPENSLIDE_VERSION}.t
 	&& make \
 	&& make install 
 
-ARG VIPS_VERSION=8.7.3
+ARG VIPS_VERSION=8.8.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
