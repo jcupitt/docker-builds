@@ -8,6 +8,9 @@ import pyvips
 
 pyvips.cache_set_max(0)
 
+print("linked to libvips {}.{}.{}"
+    .format(pyvips.version(0), pyvips.version(1), pyvips.version(2)) )
+
 for i in range(10000):
     with open(sys.argv[1], "rb") as fh:
         img = pyvips.Image.new_from_buffer(fh.read(), "", access="sequential")
