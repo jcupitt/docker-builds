@@ -15,21 +15,6 @@ RUN yum install -y \
 	libtiff-devel \
 	libgif-devel 
 
-ARG WEBP_VERSION=1.0.2
-ARG WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
-
-RUN cd /usr/local/src \
-	&& wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
-	&& tar xzf libwebp-${WEBP_VERSION}.tar.gz \
-	&& cd libwebp-${WEBP_VERSION} \
-	&& ./configure --enable-libwebpmux --enable-libwebpdemux \
-	&& make V=0 \
-	&& make install
-
-# that will install to /usr/local ... we need to have this on PKG_CONFIG_PATH
-# so that libvips can find it
-ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
-
 # stuff we need to build our own libvips ... this is a pretty basic selection
 # of dependencies, you'll want to adjust these
 RUN yum install -y \
@@ -39,14 +24,30 @@ RUN yum install -y \
 	expat-devel \
 	zlib-devel 
 
-ARG VIPS_VERSION=8.8.0
+# non-standard stuff we build from source goes here
+ENV VIPSHOME /usr/local/vips
+ENV PKG_CONFIG_PATH $VIPSHOME/lib/pkgconfig
+
+ARG WEBP_VERSION=1.0.2
+ARG WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
+
+RUN cd /usr/local/src \
+	&& wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
+	&& tar xzf libwebp-${WEBP_VERSION}.tar.gz \
+	&& cd libwebp-${WEBP_VERSION} \
+	&& ./configure --enable-libwebpmux --enable-libwebpdemux \
+		--prefix=$VIPSHOME \
+	&& make V=0 \
+	&& make install
+
+ARG VIPS_VERSION=8.8.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN cd /usr/local/src \
 	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
-	&& ./configure \
+	&& ./configure --prefix=$VIPSHOME \
 	&& make V=0 \
 	&& make install
 
