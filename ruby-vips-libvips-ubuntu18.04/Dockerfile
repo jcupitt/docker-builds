@@ -16,7 +16,7 @@ RUN apt-get install -y \
 	liblcms2-dev \
 	liborc-dev 
 
-ARG VIPS_VERSION=8.7.1
+ARG VIPS_VERSION=8.8.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN apt-get install -y \
