@@ -11,12 +11,12 @@ RUN apt-get install -y \
 	gtk-doc-tools \
 	pandoc \
 	gobject-introspection \
-  libgirepository1.0-dev \
-  libtool \
+	libgirepository1.0-dev \
+	libtool \
 	libglib2.0-dev \
 	libexpat-dev 
 
-ARG VIPS_VERSION=8.8.0
+ARG VIPS_VERSION=8.8.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN apt-get install -y \
