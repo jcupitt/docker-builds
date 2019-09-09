@@ -9,13 +9,14 @@ RUN apt-get update \
 # - libtool to build the introspection scanner
 RUN apt-get install -y \
 	libexpat-dev \
+	libtool \
 	libglib2.0-dev \
 	gobject-introspection \
 	libgirepository1.0-dev \
 	pandoc \
 	gtk-doc-tools 
 
-ARG VIPS_VERSION=8.8.1
+ARG VIPS_VERSION=8.8.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN apt-get install -y \
