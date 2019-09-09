@@ -2,8 +2,10 @@
 
 # Rebuild the image
 
-  docker pull ubuntu:bionic
-  docker build -t ruby-vips-libvips-ubuntu18.04 .
-  docker run -it --rm -v $PWD:/data ruby-vips-libvips-ubuntu18.04 
+```
+docker pull ubuntu:bionic
+docker build -t ruby-vips-libvips-ubuntu18.04 .
+docker run -it --rm -v $PWD:/data ruby-vips-libvips-ubuntu18.04 
+```
 
 
