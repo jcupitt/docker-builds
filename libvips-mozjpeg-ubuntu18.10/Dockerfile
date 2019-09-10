@@ -38,7 +38,7 @@ RUN cd /usr/local/src/mozjpeg-${MOZJPEG_VERSION} \
   && libtoolize \
   && automake --add-missing \
   && ./configure \
-  && make \
+  && make V=0 \
   && make install
 
 # we must not use any packages which depend directly or indirectly on libjpeg,
@@ -60,7 +60,7 @@ RUN cd /usr/local/src \
 # level that enables this for gcc
 RUN cd /usr/local/src/vips-${VIPS_VERSION} \
   && CFLAGS=-O3 CXXFLAGS=-O3 ./configure \
-  && make \
+  && make V=0 \
   && make install
 
 WORKDIR /data
