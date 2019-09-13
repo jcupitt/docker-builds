@@ -1,0 +1,16 @@
+--- fsl.sh.orig	2019-09-12 15:43:15.177857555 +0000
++++ /usr/local/fsl/etc/fslconf/fsl.sh	2019-09-12 15:48:59.765434998 +0000
+@@ -49,10 +49,10 @@
+ 
+ # Set up development variables (not for the faint-hearted)
+ # Uncomment the following if you wish to compile FSL source code
+-#FSLCONFDIR=$FSLDIR/config
+-#FSLMACHTYPE=`$FSLDIR/etc/fslconf/fslmachtype.sh`
++FSLCONFDIR=$FSLDIR/config
++FSLMACHTYPE=`$FSLDIR/etc/fslconf/fslmachtype.sh`
+ 
+-#export FSLCONFDIR FSLMACHTYPE
++export FSLCONFDIR FSLMACHTYPE
+ 
+ 
+ ###################################################
