@@ -49,14 +49,18 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50 \
 # so we take a copy of the closest one (linux_64-gcc4.8)
 RUN cp -r $fsl_prefix/config/linux_64-gcc4.8 $fsl_prefix/config/gnu_64-gcc4.8
 
+# FSL6 openblas needs libgfortran.so.3, but this is not linked as
+# libgfortran.so ... fix this
+RUN ln -s $fsl_prefix/lib/libgfortran.so.3 $fsl_prefix/lib/libgfortran.so
+
 # download and set up MSM
 # the struct-pipeline-build branch has a fix to the final MSM makefile
 RUN cd /usr/local/src \
     && . /etc/fsl/fsl.sh \
     && export FSLDEVDIR=$FSLDIR \
     && git clone https://github.com/jcupitt/MSM_HOCR.git \
-    && git checkout struct-pipeline-build \
     && cd MSM_HOCR \
+    && git checkout struct-pipeline-build \
     && cp -r extras/ELC1.04/ELC $FSLDEVDIR/extras/include/ELC \
     && cp -r $FSLDIR/src/FastPDlib $FSLDEVDIR/extras/src 
 
