@@ -10,19 +10,11 @@ docker build -t libvips-openjpeg-alpine .
 # Run
 
 ```
-docker run --rm -it -v $PWD:/data libvips-openjpeg-alpine bash
-```
-
-We see:
-
-```
-$ docker run --rm -it -v $PWD:/data libvips-openjpeg-alpine bash
-bash-4.4# identify 517122.jp2 
-517122.jp2 JP2 1808x1316 1808x1316+0+0 8-bit sRGB 0.000u 0:00.000
-bash-4.4# convert 517122.jp2 x.png
-bash-4.4# vipsheader 517122.jp2 
-vipsheader: magickload: unsupported colorspace 19
-bash-4.4# 
+$ docker run --rm -it -v $HOME/pics:/data libvips-openjpeg-alpine bash
+bash-5.0# identify 4888.jp2
+4888.jp2 JP2 4368x2912 4368x2912+0+0 8-bit sRGB 0.000u 0:00.001
+bash-5.0# vipsheader 4888.jp2
+4888.jp2: 4368x2912 uchar, 3 bands, srgb, magickload
 ```
 
 # Debug 

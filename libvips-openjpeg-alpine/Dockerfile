@@ -47,7 +47,7 @@ RUN wget ${OPENJPEG_URL}/v${OPENJPEG_VERSION}.tar.gz \
 
 # we have to build our own imagemagick to get jp2 support
 
-ARG MAGICK_VERSION=7.0.8-46
+ARG MAGICK_VERSION=7.0.8-64
 ARG MAGICK_URL=https://github.com/ImageMagick/ImageMagick/archive
 
 RUN wget ${MAGICK_URL}/${MAGICK_VERSION}.tar.gz \
@@ -57,7 +57,7 @@ RUN wget ${MAGICK_URL}/${MAGICK_VERSION}.tar.gz \
 	&& make V=0 \
 	&& make install 
 
-ARG VIPS_VERSION=8.8.0
+ARG VIPS_VERSION=8.8.3
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
