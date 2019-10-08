@@ -1,5 +1,7 @@
 # Build MSM against FSL6 on Ubuntu 16.04 (xenial)
 
+`fslinstaller.py` downloaded 7/10/19
+
 Build
 
 ```

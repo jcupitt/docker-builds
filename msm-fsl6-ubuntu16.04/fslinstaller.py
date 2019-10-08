@@ -46,7 +46,10 @@ UPGRADE = 2
 
 class Version(object):
     def __init__(self, version_string):
+        if ':' in version_string:
+            version_string = version_string.split(':')[0]
         v_vals = version_string.split('.')
+
         for v in v_vals:
             if not v.isdigit():
                 raise ValueError('Bad version string')
@@ -167,7 +170,7 @@ class Version(object):
         return True
 
 
-version = Version('3.0.16')
+version = Version('3.0.17')
 
 
 def memoize(f):
@@ -921,7 +924,11 @@ def open_url(url, start=0, timeout=20):
     except urllib2.URLError, e:
         if type(e.reason) != str:
             errno = e.reason.args[0]
-            message = e.reason.args[1]
+            if len(e.reason.args) > 1:
+                message = e.reason.args[1]
+            # give up on trying to identify both the errno and message
+            else:
+                message = e.reason.args
             if errno == 8:
                 # Bad host name
                 MsgUser.debug("%s %s" % (url,
@@ -931,7 +938,7 @@ def open_url(url, start=0, timeout=20):
                 # Other error
                 MsgUser.debug("%s %s" % (url, message))
         else:
-            message = e.reason
+            message = str(e.reason)
         raise OpenUrlError(
             "Cannot find %s (%s). Try again later." % (url, message))
     except socket.timeout, e:
