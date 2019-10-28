@@ -37,7 +37,7 @@ RUN apt-get install -y \
 # the version packaged for 16.04 is too old
 WORKDIR /build
 COPY install-vips.sh /build
-RUN ./install-vips.sh 8 7 4
+RUN ./install-vips.sh 8 8 3
 
 # install the php extension that links it to libvips
 RUN pecl install vips

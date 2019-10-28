@@ -26,5 +26,6 @@ fi
 wget $url/v$version/vips-$version.tar.gz
 tar xf vips-$version.tar.gz
 cd vips-$version
-CXXFLAGS=-D_GLIBCXX_USE_CXX11_ABI=0 ./configure --prefix=/usr $*
-make && make install
+./configure --prefix=/usr $* \
+	&& make \
+	&& make install
