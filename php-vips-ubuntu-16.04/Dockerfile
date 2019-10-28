@@ -27,6 +27,7 @@ RUN apt-get install -y \
     libexpat-dev \
     librsvg2-dev \
     libpng-dev \
+    libpoppler-glib-dev \
     libgif-dev \
     libjpeg-dev \
     libexif-dev \
