@@ -6,7 +6,7 @@
 
 FROM alpine:latest
 
-ARG VIPS_VERSION=8.7.0
+ARG VIPS_VERSION=8.8.3
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN apk update && apk upgrade
