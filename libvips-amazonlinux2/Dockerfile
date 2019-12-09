@@ -40,7 +40,7 @@ RUN cd /usr/local/src \
 	&& make V=0 \
 	&& make install
 
-ARG VIPS_VERSION=8.8.1
+ARG VIPS_VERSION=8.8.3
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN cd /usr/local/src \
@@ -51,3 +51,4 @@ RUN cd /usr/local/src \
 	&& make V=0 \
 	&& make install
 
+RUN ls $VIPSHOME/lib

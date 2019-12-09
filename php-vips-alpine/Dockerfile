@@ -1,8 +1,9 @@
 # build with
-#    docker build -t ruby-vips-alpine:latest .
+#    docker pull alpine:latest
+#    docker build -t php-vips-alpine:latest .
 
 # run with
-#    docker run -it ruby-vips-alpine irb
+#    docker run -it php-vips-alpine irb
 
 FROM alpine:latest
 
@@ -14,8 +15,6 @@ RUN apk update && apk upgrade
 # basic packages libvips likes
 RUN apk add \
 	build-base \
-	autoconf \
-	automake \
 	libtool \
 	bc \
 	zlib-dev \
@@ -40,21 +39,22 @@ RUN apk add \
 	poppler-dev \
 	librsvg-dev 
 
-# there are other optional deps you can add for openslide / openexr /
-# imagmagick support / Matlab support etc etc
-
 RUN wget -O- ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz | tar xzC /tmp
 RUN cd /tmp/vips-${VIPS_VERSION} \
 	&& ./configure --prefix=/usr --disable-static --disable-debug \
 	&& make V=0 \
 	&& make install 
 
+# there are other optional deps you can add for openslide / openexr /
+# imagmagick support / Matlab support etc etc
+
+# php7 dev environment .. you need openssl so pecl can download packages
 RUN apk add \
-	ruby-dev \
-	ruby-irb
+	php7-dev \
+	php7-pear \
+	php7-openssl
 
-# for some reason rdoc install fails ... ignore the error
-RUN gem install rdoc || exit 0
+RUN PKG_CONFIG_PATH=/usr/local/lib/pkgconfig pecl install vips
 
-# and now ruby-vips can go on
-RUN gem install ruby-vips
+# and enable
+RUN echo "extension=vips.so" > /etc/php7/conf.d/00_vips.ini
