@@ -37,7 +37,6 @@ RUN apk add \
 # we need some extra packages to build from git master
 RUN apk add \
 	gtk-doc \
-	swig \
 	gobject-introspection-dev
 
 WORKDIR /usr/local/src
@@ -56,6 +55,6 @@ RUN apk add \
 
 # and now pyvips can go on
 RUN pip3 install --upgrade pip \
-  && pip3 install pyvips
+	&& pip3 install pyvips
 
 WORKDIR /data

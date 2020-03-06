@@ -27,7 +27,7 @@ RUN yum install -y \
 RUN yum install -y \
 	libgsf-devel
 
-ARG VIPS_VERSION=8.7.1
+ARG VIPS_VERSION=8.7.4
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN cd /usr/local/src \

@@ -1,4 +1,4 @@
-# Make a pyvips / python 3.7 / libvips 8.7 / alpine stack
+# Make a pyvips / python 3.7 / libvips 8.8 / alpine stack
 
 # Rebuild the image
 
