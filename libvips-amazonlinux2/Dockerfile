@@ -17,12 +17,23 @@ RUN yum install -y \
 
 # stuff we need to build our own libvips ... this is a pretty basic selection
 # of dependencies, you'll want to adjust these
+# dzsave needs libgsf
 RUN yum install -y \
 	libpng-devel \
 	glib2-devel \
 	libjpeg-devel \
 	expat-devel \
-	zlib-devel 
+	zlib-devel \
+	orc-devel \
+	lcms2-devel \
+	libexif-devel \
+	libgsf-devel
+
+# openslide is in epel -- extra packages for enterprise linux
+RUN yum install -y \
+	https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+RUN yum install -y \
+	openslide-devel 
 
 # non-standard stuff we build from source goes here
 ENV VIPSHOME /usr/local/vips
