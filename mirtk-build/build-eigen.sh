@@ -3,9 +3,9 @@
 set -e
 
 EIGEN_RELEASE_VERSION=3.3
-EIGEN_MICRO_VERSION=4
+EIGEN_MICRO_VERSION=7
 EIGEN_VERSION=$EIGEN_RELEASE_VERSION.$EIGEN_MICRO_VERSION
-EIGEN_URL=http://bitbucket.org/eigen/eigen/get
+EIGEN_URL=https://gitlab.com/libeigen/eigen/-/archive
 
 if [ x$PREFIX == x ]; then
 	echo PREFIX not set
@@ -14,14 +14,13 @@ fi
 
 if [ ! -f downloads/$EIGEN_VERSION.tar.bz2 ]; then 
 	echo download eigen ...
-	(cd downloads; wget $EIGEN_URL/$EIGEN_VERSION.tar.bz2)
+	( cd downloads;  \
+	  wget $EIGEN_URL/$EIGEN_VERSION/eigen-$EIGEN_VERSION.tar.bz2 )
 fi
 
 if [ ! -d eigen-$EIGEN_VERSION ]; then
 	echo unpack eigen ...
-	tar xf downloads/$EIGEN_VERSION.tar.bz2
-	# rename to something sensible
-	mv eigen* eigen-$EIGEN_VERSION
+	tar xf downloads/eigen-$EIGEN_VERSION.tar.bz2
 fi
 
 EIGEN_SOURCE_DIR="$PWD/eigen-$EIGEN_VERSION"
