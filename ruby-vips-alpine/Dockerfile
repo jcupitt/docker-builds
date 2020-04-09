@@ -1,12 +1,13 @@
 # build with
+#    docker pull alpine:latest
 #    docker build -t ruby-vips-alpine:latest .
 
 # run with
-#    docker run -it ruby-vips-alpine irb
+#    docker run -it --rm -v $PWDG
 
 FROM alpine:latest
 
-ARG VIPS_VERSION=8.8.3
+ARG VIPS_VERSION=8.9.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN apk update && apk upgrade
@@ -33,16 +34,24 @@ RUN apk add \
 	orc-dev \
 	libgsf-dev 
 
-# add these if you like for text rendering, PDF rendering, SVG rendering, 
-# but they will pull in loads of other stuff
+# text rendering ... we have to download some fonts and rebuild the font
+# cache
 RUN apk add \
-	gdk-pixbuf-dev \
+	pango-dev \
+	msttcorefonts-installer
+RUN update-ms-fonts \
+	&& fc-cache -f
+
+# add these for PDF rendering and SVG rendering, but they will pull in 
+# loads of other stuff
+RUN apk add \
 	poppler-dev \
 	librsvg-dev 
 
 # there are other optional deps you can add for openslide / openexr /
 # imagmagick support / Matlab support etc etc
 
+# installing to /usr is not the best idea, but it's easy
 RUN wget -O- ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz | tar xzC /tmp
 RUN cd /tmp/vips-${VIPS_VERSION} \
 	&& ./configure --prefix=/usr --disable-static --disable-debug \
@@ -52,9 +61,5 @@ RUN cd /tmp/vips-${VIPS_VERSION} \
 RUN apk add \
 	ruby-dev \
 	ruby-irb
-
-# for some reason rdoc install fails ... ignore the error
-RUN gem install rdoc || exit 0
-
-# and now ruby-vips can go on
-RUN gem install ruby-vips
+RUN gem install rdoc \
+	ruby-vips
