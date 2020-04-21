@@ -1,12 +1,17 @@
-# ruby-vips / libvips / openslide / ubuntu 18.04
+# pyvips / libvips / openslide / ubuntu 18.04
 
 # Rebuild the image
 
-    docker pull ubuntu:bionic
+```
+docker pull ubuntu:bionic
+docker build -t pyvips-libvips-openslide-ubuntu18.04 .
+```
 
-    docker build -t pyvips-libvips-openslide-ubuntu18.04 .
+# Run a shell in the container
 
-    docker run -it --rm -v $PWD:/data pyvips-libvips-openslide-ubuntu18.04
+Current directory mounted as `/data`.
 
-
+```
+docker run -it --rm -v $PWD:/data pyvips-libvips-openslide-ubuntu18.04
+```
 
