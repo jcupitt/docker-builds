@@ -2,7 +2,7 @@ FROM centos:centos7.2.1511
 
 # yum-plugin-ovl helps yum work with the docker overlay filesystem 
 RUN yum update -y \
-  && yum -y install yum-plugin-ovl 
+	&& yum -y install yum-plugin-ovl 
 
 # general build stuff 
 RUN yum groupinstall -y "Development Tools" \
@@ -15,23 +15,21 @@ RUN yum install -y \
 	glib2-devel \
 	libjpeg-devel \
 	expat-devel \
+	libgsf-devel \
 	zlib-devel 
 
-# openslide is in epel -- extra packages for enterprise linux
+# openslide is in epel
 RUN yum install -y \
 	https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install -y \
 	openslide-devel 
 
-# dzsave needs libgsf
-RUN yum install -y \
-	libgsf-devel
+WORKDIR /usr/local/src
 
-ARG VIPS_VERSION=8.7.4
+ARG VIPS_VERSION=8.9.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-RUN cd /usr/local/src \
-	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
 	&& echo -n "GCC version "; gcc --version \
