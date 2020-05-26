@@ -33,10 +33,10 @@ RUN yum install -y \
 	libtiff-devel \
 	libgif-devel 
 
-ARG WEBP_VERSION=1.0.2
+ARG WEBP_VERSION=1.1.0
 ARG WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
 
-RUN && wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
+RUN wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
 	&& tar xzf libwebp-${WEBP_VERSION}.tar.gz \
 	&& cd libwebp-${WEBP_VERSION} \
 	&& ./configure --enable-libwebpmux --enable-libwebpdemux \
@@ -47,12 +47,12 @@ ARG VIPS_VERSION=8.9.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 # so libvips picks up our new libwebp
-ENV PKG_CONFIG_PATH $VIPSHOME/lib/pkgconfig
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
 	&& ./configure \
-	&& make \
+	&& make V=0 \
 	&& make install
 
