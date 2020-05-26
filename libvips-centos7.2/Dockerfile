@@ -26,13 +26,32 @@ RUN yum install -y \
 
 WORKDIR /usr/local/src
 
+# packages needed by libwebp
+RUN yum install -y \
+	libjpeg-devel \
+	libpng-devel \
+	libtiff-devel \
+	libgif-devel 
+
+ARG WEBP_VERSION=1.0.2
+ARG WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
+
+RUN && wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
+	&& tar xzf libwebp-${WEBP_VERSION}.tar.gz \
+	&& cd libwebp-${WEBP_VERSION} \
+	&& ./configure --enable-libwebpmux --enable-libwebpdemux \
+	&& make V=0 \
+	&& make install
+
 ARG VIPS_VERSION=8.9.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+
+# so libvips picks up our new libwebp
+ENV PKG_CONFIG_PATH $VIPSHOME/lib/pkgconfig
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
-	&& echo -n "GCC version "; gcc --version \
 	&& ./configure \
 	&& make \
 	&& make install
