@@ -1,5 +1,9 @@
 # Build MIRTK to a prefix
 
+# FSL
+
+See `docker-builds/msm-fsl6-ubuntu16.04` for FSL plus latest MSM.
+
 # Native build
 
 These scripts download, configure, build and install eigen, VTK and MIRTK 
