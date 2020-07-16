@@ -8,7 +8,7 @@ if [ x$PREFIX == x ]; then
 fi
 
 if [ ! -d MIRTK ]; then 
-	git clone https://github.com/jcupitt/MIRTK.git
+	git clone https://github.com/BioMedIA/MIRTK.git
 fi
 
 MIRTK_SOURCE_DIR="$PWD/MIRTK"
