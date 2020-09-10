@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PREFIX=~/mirtk
+export PREFIX=$HOME/mirtk
 # export BUILD_TYPE=Debug
 export BUILD_TYPE=Release
 

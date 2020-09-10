@@ -15,7 +15,8 @@ MIRTK_SOURCE_DIR="$PWD/MIRTK"
 cd $MIRTK_SOURCE_DIR
 
 git pull
-git checkout revise-registration-cfg
+# git checkout v2.0.0
+# git checkout revise-registration-cfg
 git submodule update --init
 
 mkdir -p build
@@ -33,9 +34,10 @@ cmake \
 	-D MODULE_PointSet=ON \
 	-D MODULE_Scripting=ON \
 	-D MODULE_Viewer=ON \
+  -D DEPENDS_VTK_DIR:PATH=$PREFIX/lib/cmake/vtk-8.1 \
 	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
-	-D DEPENDS_VTK_DIR:PATH=$PREFIX/lib/cmake/vtk-8.1 \
-	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX ..
+	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX \
+  ..
 
 echo build MIRTK ...
 make -j 8 

@@ -31,8 +31,9 @@ cd build
 
 echo configure VTK ...
 cmake \
-	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
-	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX ..
+	-D CMAKE_BUILD_TYPE:STRING=$BUILD_TYPE \
+	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX \
+  ..
 
 echo build VTK ...
 make -j 8 
