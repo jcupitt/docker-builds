@@ -23,10 +23,11 @@ mkdir -p build
 cd build
 
 echo configure MIRTK ...
-# MIRTK2 mapping needs pointset, and pointset needs vtk
-#	-D MODULE_Mapping=ON \
-#	-D MODULE_PointSet=ON \
-# -D MODULE_Deformable=ON \
+# MIRTK2 mapping needs pointset, pointset needs vtk, vtk latest is hard to
+# build on xenial
+#	 -D MODULE_Mapping=ON \
+#	 -D MODULE_PointSet=ON \
+#  -D MODULE_Deformable=ON \
 
 cmake \
 	-D WITH_VTK=OFF \
@@ -39,7 +40,8 @@ cmake \
 	-D MODULE_Scripting=ON \
 	-D MODULE_Viewer=OFF \
 	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
-	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX ..
+	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX \
+  ..
 
 echo build MIRTK ...
 make -j 8 

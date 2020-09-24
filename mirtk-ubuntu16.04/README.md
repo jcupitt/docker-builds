@@ -8,10 +8,8 @@ and is a pain on older machines.
 Try:
 
 ```
-docker build -t john/mirtk:xenial .
+docker build -t mirtk:xenial .
 ```
 
 Edit `build-all.sh` to change the install location. Edit `build-itk.sh`
 etc. to change the versions.
-
-
