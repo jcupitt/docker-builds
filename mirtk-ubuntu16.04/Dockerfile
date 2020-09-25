@@ -51,4 +51,8 @@ COPY build-mirtk.sh /usr/local/src/
 RUN apt-get install -y libtbb-dev libboost-dev \
 	&& ./build-mirtk.sh
 
+# we need libstc++ in our libs well, since many condor machines are
+# missing the correct version, frustratingly
+RUN cp /usr/lib/x86_64-linux-gnu/libstdc++* $PREFIX/lib
+
 
