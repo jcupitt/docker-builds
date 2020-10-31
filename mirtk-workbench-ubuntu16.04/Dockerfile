@@ -78,7 +78,3 @@ RUN cd workbench \
 RUN cd workbench/build \
 	&& make \
 	&& make install
-
-
-RUN apt-get install -y \
-  gifti-bin
