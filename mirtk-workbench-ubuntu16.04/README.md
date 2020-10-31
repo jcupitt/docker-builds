@@ -10,7 +10,7 @@ machines.
 Try:
 
 ```
-docker build -t mirtk-workbench:xenial .
+docker build -t jcupitt/mirtk-workbench:xenial .
 ```
 
 Edit `build-itk.sh` etc. to change versions.
