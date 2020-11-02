@@ -6,11 +6,20 @@ Build
 
 ```
 docker pull ubuntu:xenial
-docker build -t msm .
+docker build -t jcupitt/msm .
 ```
 
 Shell in image
 
 ```
-docker run --rm -it -v $PWD:/data msm /bin/bash
+docker run --rm -it -u $(id -u):$(id -g) -v $PWD:/data jcupitt/msm /bin/bash
+```
+
+Login to dockerhub and push the image. The password is a special access token
+for 2fa.
+
+```
+$ docker login --username jcupitt
+Password:
+$ docker push jcupitt/msm
 ```

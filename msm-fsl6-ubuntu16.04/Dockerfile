@@ -26,7 +26,8 @@ ENV fsl_prefix=/usr/local/fsl
 
 # -E is not suported on ubuntu (rhel only), so we make a quick n dirty
 # /etc/fsl/fsl.sh 
-COPY . /usr/local/src/fsl
+RUN mkdir -p /usr/local/src/fsl 
+COPY fslinstaller.py /usr/local/src/fsl
 RUN cd /usr/local/src/fsl \ 
     && python fslinstaller.py -V 6.0.2 -q -d $fsl_prefix \
     && mkdir -p /etc/fsl \
@@ -35,6 +36,7 @@ RUN cd /usr/local/src/fsl \
 # set FSL up for build:
 # 	- ${FSLDIR}/etc/fslconf/fsl.sh needs to be patched to enable 
 # 	  FSLCONFDIR, FSLMACHTYPE, and the associated export
+COPY fsl.sh.patch /usr/local/src/fsl
 RUN cd $fsl_prefix/etc/fslconf \
     && patch < /usr/local/src/fsl/fsl.sh.patch 
 
@@ -55,7 +57,8 @@ RUN ln -s $fsl_prefix/lib/libgfortran.so.3 $fsl_prefix/lib/libgfortran.so
 
 # download and set up MSM
 # the struct-pipeline-build branch has a fix to the final MSM makefile
-RUN cd /usr/local/src \
+RUN cd && cd \
+    && cd /usr/local/src \
     && . /etc/fsl/fsl.sh \
     && export FSLDEVDIR=$FSLDIR \
     && git clone https://github.com/jcupitt/MSM_HOCR.git \
@@ -64,7 +67,7 @@ RUN cd /usr/local/src \
     && cp -r extras/ELC1.04/ELC $FSLDEVDIR/extras/include/ELC \
     && cp -r $FSLDIR/src/FastPDlib $FSLDEVDIR/extras/src 
 
-# build MSM
+# build MSM, and replace the FSL msm with our own
 RUN cd /usr/local/src \
     && . /etc/fsl/fsl.sh \
     && export FSLDEVDIR=$FSLDIR \
@@ -83,4 +86,9 @@ RUN cd /usr/local/src \
     && make install \
     && cd ../MSM \
     && make \
-    && make install
+    && make install \
+    && cp msm $FSLDIR/bin \
+    && cp msmresample $FSLDIR/bin
+
+WORKDIR /data
+
