@@ -88,6 +88,7 @@ RUN cd /usr/local/src \
     && make \
     && make install \
     && cp msm $FSLDIR/bin \
+    && cp msmapplywarp $FSLDIR/bin \
     && cp msmresample $FSLDIR/bin
 
 WORKDIR /data
