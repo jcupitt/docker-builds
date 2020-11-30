@@ -16,7 +16,9 @@ RUN apt-get install -y \
 	libexif-dev \
 	liblcms2-dev \
 	libheif-dev \
-	liborc-dev 
+	liborc-dev \
+	python3-pip \
+	time
 
 ARG VIPS_VERSION=8.10.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
@@ -28,6 +30,8 @@ RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
 	&& ./configure \
 	&& make \
-	&& make install
+	&& make install \
+	&& ldconfig
 
+RUN pip3 install pyvips
 
