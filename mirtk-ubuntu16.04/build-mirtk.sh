@@ -15,7 +15,7 @@ MIRTK_SOURCE_DIR="$PWD/MIRTK"
 cd $MIRTK_SOURCE_DIR
 
 git pull
-git checkout v2.0.0
+git checkout master
 git submodule update --init
 
 mkdir -p build
@@ -23,28 +23,30 @@ mkdir -p build
 cd build
 
 echo configure MIRTK ...
-# MIRTK2 mapping needs pointset, pointset needs vtk, vtk latest is hard to
-# build on xenial
-#	 -D MODULE_Mapping=ON \
-#	 -D MODULE_PointSet=ON \
-#  -D MODULE_Deformable=ON \
 
+# libtbb hates being forced to use our libstdc++
+#  -D WITH_TBB=ON \
 cmake \
-	-D WITH_VTK=OFF \
+	-D WITH_ITK=ON \
+	-D WITH_VTK=ON \
 	-D WITH_PNG=ON \
-	-D WITH_TBB=ON \
-	-D MODULE_Deformable=OFF \
+	-D WITH_GiftiCLib=ON \
+	-D WITH_TBB=OFF \
+	-D MODULE_Deformable=ON \
 	-D MODULE_DrawEM=ON \
- 	-D MODULE_Mapping=OFF \
- 	-D MODULE_PointSet=OFF \
+ 	-D MODULE_Mapping=ON \
+ 	-D MODULE_PointSet=ON \
 	-D MODULE_Scripting=ON \
 	-D MODULE_Viewer=OFF \
-	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
+	-D CMAKE_BUILD_TYPE=Debug \
 	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX \
   ..
 
 echo build MIRTK ...
-make -j 8 
+# this will fail in drawem in atlas copy, see:
+# https://github.com/MIRTK/DrawEM/issues/32
+# unzip the atlas by hand and installation will work
+make 
 
 echo install MIRTK ...
 make install

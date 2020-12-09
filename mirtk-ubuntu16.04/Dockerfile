@@ -47,9 +47,14 @@ RUN ./build-eigen.sh
 COPY build-itk.sh /usr/local/src/
 RUN ./build-itk.sh 
 
+# vtk9 really hates not having gl :(
+RUN apt-get install -y libgl-dev 
+COPY build-vtk.sh /usr/local/src/
+RUN ./build-vtk.sh 
+
+RUN apt-get install -y libgiftiio-dev libexpat1-dev libboost-dev
 COPY build-mirtk.sh /usr/local/src/
-RUN apt-get install -y libtbb-dev libboost-dev \
-	&& ./build-mirtk.sh
+RUN ./build-mirtk.sh
 
 # we need libstc++ in our libs well, since many condor machines are
 # missing the correct version, frustratingly
