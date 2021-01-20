@@ -2,8 +2,8 @@
 
 set -e
 
-ITK_RELEASE_VERSION=5.0
-ITK_MICRO_VERSION=1
+ITK_RELEASE_VERSION=5.1
+ITK_MICRO_VERSION=2
 ITK_VERSION=$ITK_RELEASE_VERSION.$ITK_MICRO_VERSION
 
 ITK_URL=https://github.com/InsightSoftwareConsortium/ITK/releases/download
@@ -32,7 +32,10 @@ mkdir -p build
 cd build
 
 echo configure ITK ...
+# GenericLabelInterpolator, ITKReview needed by ANTs
 cmake \
+  -D Module_GenericLabelInterpolator:BOOL=ON \
+  -D Module_ITKReview:BOOL=ON \
 	-D CMAKE_BUILD_TYPE=$BUILD_TYPE \
 	-D CMAKE_INSTALL_PREFIX:PATH=$PREFIX ..
 

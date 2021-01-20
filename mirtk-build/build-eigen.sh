@@ -12,7 +12,7 @@ if [ x$PREFIX == x ]; then
 	exit 1
 fi
 
-if [ ! -f downloads/$EIGEN_VERSION.tar.bz2 ]; then 
+if [ ! -f downloads/eigen-$EIGEN_VERSION.tar.bz2 ]; then 
 	echo download eigen ...
 	( cd downloads;  \
 	  wget $EIGEN_URL/$EIGEN_VERSION/eigen-$EIGEN_VERSION.tar.bz2 )

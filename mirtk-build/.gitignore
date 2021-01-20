@@ -1,6 +1,7 @@
 MIRTK
 downloads/*
 VTK-*
+ANTs-*
 InsightToolkit-*
 eigen-*
 .*.swp
