@@ -1,12 +1,16 @@
 FROM ubuntu:bionic
 
-RUN apt-get update \
-	&& apt-get install -y 
+RUN apt-get update 
+RUN apt-get install -y \
+	build-essential \
+	unzip \
+	wget 
 
 # stuff we need to build our own libvips ... this is a pretty random selection
 # of dependencies, you'll want to adjust these
+# the libheif-dev in ubuntu 18.04 is too old, you'd need to build that from
+# source
 RUN apt-get install -y \
-	wget \
 	glib-2.0-dev \
 	libexpat-dev \
 	librsvg2-dev \
@@ -15,12 +19,9 @@ RUN apt-get install -y \
 	libjpeg-dev \
 	libexif-dev \
 	liblcms2-dev \
-	libheif-dev \
-	liborc-dev \
-	python3-pip \
-	time
+	liborc-dev
 
-ARG VIPS_VERSION=8.10.2
+ARG VIPS_VERSION=8.10.5
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 WORKDIR /usr/local/src
@@ -29,9 +30,12 @@ RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
 	&& ./configure \
-	&& make \
+	&& make V=0 \
 	&& make install \
 	&& ldconfig
 
+# pyvips 
+RUN apt-get install -y \
+	python3-pip 
 RUN pip3 install pyvips
 
