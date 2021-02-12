@@ -72,7 +72,7 @@ RUN apt-get install -y \
 	libheif-dev \
 	liborc-dev 
 
-ARG VIPS_VERSION=master 
+ARG VIPS_VERSION=master
 ARG VIPS_URL=https://github.com/libvips/libvips.git
 
 RUN git clone $VIPS_URL \
@@ -83,5 +83,3 @@ RUN git clone $VIPS_URL \
 	&& make install
 
 RUN vips -l pdfload_base
-
-
