@@ -1,0 +1,17 @@
+--simval=2,2,2
+--sigma_in=6,4,2
+--sigma_ref=6,4,2
+--lambda=0.2,0.3,0.4
+--it=20,25,25
+--opt=DISCRETE,DISCRETE,DISCRETE
+--CPgrid=2,3,4
+--SGgrid=4,5,6
+--datagrid=4,5,6
+--regoption=3
+--regexp=2
+--dopt=HOCR
+--VN
+--rescaleL
+--k_exponent=2
+--bulkmod=1.6
+--shearmod=0.4

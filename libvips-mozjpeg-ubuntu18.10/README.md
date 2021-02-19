@@ -32,7 +32,7 @@ libvips with mozjpeg --overshoot-deringing ... 0.82
 # Run "vipsthumbnail" from the container
 
 ```
-docker run -it --rm -v $PWD:/data libvips-mozjpeg-ubuntu18.10
+docker run -t --rm -v $PWD:/data libvips-mozjpeg-ubuntu18.10 
 ```
 
 # Open shell in container

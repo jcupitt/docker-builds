@@ -15,7 +15,8 @@ ls -l pic-imagick.jpg
 options="Q=85,optimize-coding,strip,interlace"
 
 # the Q=85 one does nothing and will just match the imagic settings
-for moz_option in Q=85 optimize-scans trellis-quant overshoot-deringing; do
+for moz_option in Q=85 optimize-scans trellis-quant overshoot-deringing \
+  "quant_table=3" ; do
   echo -n "libvips with mozjpeg --$moz_option ... "
   /usr/bin/time -f %e \
     docker run -it --rm -v $PWD:/data libvips-mozjpeg-ubuntu18.10 \
@@ -24,3 +25,10 @@ for moz_option in Q=85 optimize-scans trellis-quant overshoot-deringing; do
   ls -l "pic-mozjpeg-$moz_option.jpg"
 done
 
+# all significant options combined 
+moz_option="optimize-scans,trellis-quant,quant_table=3"
+echo -n "libvips with [$moz_option] ... "
+/usr/bin/time -f %e \
+  docker run -it --rm -v $PWD:/data libvips-mozjpeg-ubuntu18.10 \
+    pic.png --size=1920x1280 -o pic-mozjpeg-max.jpg[$options,$moz_option]
+ls -l pic-mozjpeg-max.jpg

@@ -14,7 +14,7 @@ mkdir -p downloads
 # git master drawem needs ants
 #        && ./build-ants.sh \
 # but ANTs is hard to build with vtk9
-# stick with an earlier drawem for now (swee build-mirtk.sh)
+# stick with an earlier drawem for now (see build-mirtk.sh)
 
 ./build-eigen.sh \
         && ./build-itk.sh \

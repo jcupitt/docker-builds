@@ -23,9 +23,6 @@ RUN apt-get install -y \
 ARG VIPS_VERSION=8.7.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-RUN apt-get install -y \
-	wget
-
 RUN cd /usr/local/src \
 	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \

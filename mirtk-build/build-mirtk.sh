@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -e
+# don't turn this on -- we need build to try and fail
+# set -e
 
 if [ x$PREFIX == x ]; then
 	echo PREFIX not set
@@ -49,7 +50,18 @@ cmake \
   ..
 
 echo build MIRTK ...
-make -j 8 
+make -j 32 
 
 echo install MIRTK ...
+make install
+
+# that will fail with an error about unpacking the atlases, see
+# https://github.com/MIRTK/DrawEM/issues/32
+# unzip, remove the target dir, and try again
+( cd $MIRTK_SOURCE_DIR/Packages/DrawEM \
+  && rm -rf atlases )
+( cd Packages/DrawEM/atlases/src \
+  && unzip -qq atlases-dhcp-structural-pipeline-v1.zip )
+
+echo retrying ...
 make install

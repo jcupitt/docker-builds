@@ -48,7 +48,9 @@ COPY build-itk.sh /usr/local/src/
 RUN ./build-itk.sh 
 
 # vtk9 really hates not having gl :(
-RUN apt-get install -y libgl-dev 
+RUN apt-get install -y \
+  libgl-dev \
+  libxt-dev
 COPY build-vtk.sh /usr/local/src/
 RUN ./build-vtk.sh 
 
