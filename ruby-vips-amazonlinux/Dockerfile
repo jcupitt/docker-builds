@@ -50,7 +50,7 @@ RUN yum install -y \
 RUN wget $VIPS_URL/v$VIPS_VERSION/vips-$VIPS_VERSION.tar.gz \
 	&& tar xzf vips-$VIPS_VERSION.tar.gz \
 	&& cd vips-$VIPS_VERSION \
-	&& ./configure --without-heif \
+	&& ./configure \
 	&& make V=0 \
 	&& make install
 
