@@ -1,4 +1,4 @@
-FROM centos:centos7.2.1511
+FROM centos:centos7
 
 # yum-plugin-ovl helps yum work with the docker overlay filesystem 
 RUN yum update -y \
@@ -14,6 +14,8 @@ RUN yum install -y \
 	libpng-devel \
 	glib2-devel \
 	libjpeg-devel \
+  orc-devel \
+  libexif-devel \
 	expat-devel \
 	libgsf-devel \
 	zlib-devel 
@@ -43,7 +45,7 @@ RUN wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
 	&& make V=0 \
 	&& make install
 
-ARG VIPS_VERSION=8.9.2
+ARG VIPS_VERSION=8.10.5
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 # so libvips picks up our new libwebp
