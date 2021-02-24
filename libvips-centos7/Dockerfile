@@ -14,8 +14,8 @@ RUN yum install -y \
 	libpng-devel \
 	glib2-devel \
 	libjpeg-devel \
-  orc-devel \
-  libexif-devel \
+	orc-devel \
+	libexif-devel \
 	expat-devel \
 	libgsf-devel \
 	zlib-devel 
