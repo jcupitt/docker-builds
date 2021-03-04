@@ -48,8 +48,7 @@ RUN apt-get install -y \
 RUN pecl install vips
 
 # enable the vips.so extension at the cli so composer can find it
-RUN echo "extension=vips.so" > /etc/php/7.4/mods-available/vips.ini \
-    && ln -s /etc/php/7.4/mods-available/vips.ini \
-		/etc/php/7.4/cli/conf.d/20-vips.ini
+RUN echo "extension=vips.so" > /etc/php/7.4/mods-available/vips.ini
+RUN phpenmod vips
 
 WORKDIR /data
