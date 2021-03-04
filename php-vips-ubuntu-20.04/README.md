@@ -1,4 +1,4 @@
-# Make a php-vips / nginx / ubuntu 16.04 stack
+# Install php-vips on ubuntu 20.04 
 
 # Rebuild the image
 
