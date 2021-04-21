@@ -168,7 +168,7 @@ build pixman
 #   - lcms2
 #   - poppler
 #   - ghostscript
-#build jpeg-turbo
+build jpgturbo
 
 # http://www.linuxfromscratch.org/blfs/view/cvs/general/libtiff.html
 # Dependencies:
