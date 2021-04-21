@@ -20,6 +20,7 @@ RUN yum install -y \
 # dzsave needs libgsf
 RUN yum install -y \
 	libpng-devel \
+	poppler-glib-devel \
 	glib2-devel \
 	libjpeg-devel \
 	expat-devel \
@@ -39,7 +40,7 @@ RUN yum install -y \
 ENV VIPSHOME /usr/local/vips
 ENV PKG_CONFIG_PATH $VIPSHOME/lib/pkgconfig
 
-ARG WEBP_VERSION=1.0.2
+ARG WEBP_VERSION=1.1.0
 ARG WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
 
 RUN cd /usr/local/src \
@@ -51,7 +52,7 @@ RUN cd /usr/local/src \
 	&& make V=0 \
 	&& make install
 
-ARG VIPS_VERSION=8.9.1
+ARG VIPS_VERSION=8.10.5
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN cd /usr/local/src \
