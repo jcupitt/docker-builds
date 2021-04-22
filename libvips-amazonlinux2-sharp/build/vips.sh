@@ -47,6 +47,13 @@ build () {
 # Depended on by:
 build zlib
 
+# http://www.linuxfromscratch.org/blfs/view/svn/general/libffi.html
+# Dependencies:
+#   - None
+# Depended on by:
+#   - GLib
+build ffi
+
 # http://www.linuxfromscratch.org/blfs/view/svn/general/libpng.html
 # Dependencies:
 #   - None
