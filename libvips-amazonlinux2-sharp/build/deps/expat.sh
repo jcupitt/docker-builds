@@ -1,4 +1,5 @@
-EXPAT_VERSION=2.3.0
+export EXPAT_VERSION=2.3.0
+
 EXPAT_URL=https://github.com/libexpat/libexpat/releases/download/R_
 
 cd /usr/local/src
@@ -16,5 +17,4 @@ cd expat-${EXPAT_VERSION}
   --without-libbsd \
   --without-examples \
   --without-tests
-make V=0
-make install
+make install-strip

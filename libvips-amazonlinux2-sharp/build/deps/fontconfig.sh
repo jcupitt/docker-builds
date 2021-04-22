@@ -1,4 +1,5 @@
-FONTCONFIG_VERSION=2.13.93
+export FONTCONFIG_VERSION=2.13.93
+
 FONTCONFIG_URL=https://www.freedesktop.org/software/fontconfig/release
 
 cd /usr/local/src
@@ -12,5 +13,4 @@ cd fontconfig-${FONTCONFIG_VERSION}
   --with-expat-includes=${PREFIX}/include \
   --with-expat-lib=${PREFIX}/lib \
   --disable-docs
-make V=0
-make install
+make install-strip

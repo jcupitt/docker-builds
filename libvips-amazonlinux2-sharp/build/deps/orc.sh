@@ -1,4 +1,5 @@
-ORC_VERSION=0.4.32
+export ORC_VERSION=0.4.32
+
 ORC_URL=https://gstreamer.freedesktop.org/data/src/orc
 
 cd /usr/local/src

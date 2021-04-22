@@ -1,4 +1,5 @@
-ZLIB_VERSION=2.0.2
+export ZLIB_VERSION=2.0.2
+
 ZLIB_URL=https://github.com/zlib-ng/zlib-ng/archive/
 
 cd /usr/local/src
@@ -10,5 +11,4 @@ CFLAGS="${CFLAGS} -O3" LDFLAGS=${LDFLAGS/\$/} cmake -G"Unix Makefiles" \
   -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   -DBUILD_SHARED_LIBS=FALSE \
   -DZLIB_COMPAT=TRUE
-make V=0
-make install
+make install/strip

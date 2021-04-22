@@ -1,4 +1,5 @@
-PDFIUM_VERSION=4290
+export PDFIUM_VERSION=4290
+
 PDFIUM_URL=https://github.com/bblanchon/pdfium-binaries/releases/download/chromium
 
 cd /usr/local/src

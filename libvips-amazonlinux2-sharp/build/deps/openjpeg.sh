@@ -1,4 +1,5 @@
-OPENJPEG_VERSION=2.4.0
+export OPENJPEG_VERSION=2.4.0
+
 OPENJPEG_URL=https://github.com/uclouvain/openjpeg/archive/refs/tags
 
 cd /usr/local/src
@@ -9,5 +10,4 @@ mkdir -p build
 cd build
 LDFLAGS=${LDFLAGS/\$/} cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} \
   -DCMAKE_TOOLCHAIN_FILE=/packaging/Toolchain.cmake -DBUILD_SHARED_LIBS=OFF -DBUILD_CODEC=OFF
-make V=0
-make install
+make install/strip

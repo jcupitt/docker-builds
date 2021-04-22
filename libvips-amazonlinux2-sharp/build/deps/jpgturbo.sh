@@ -1,11 +1,11 @@
-export MOZJPEG_VERSION=4.0.3
+export JPGTURBO_VERSION=2.0.90
 
-MOZJPEG_URL=https://github.com/mozilla/mozjpeg/archive
+JPGTURBO_URL=https://github.com/libjpeg-turbo/libjpeg-turbo/archive
 
 cd /usr/local/src
-wget -N ${MOZJPEG_URL}/v${MOZJPEG_VERSION}.tar.gz -O mozjpeg-${MOZJPEG_VERSION}.tar.gz
-tar xzf mozjpeg-${MOZJPEG_VERSION}.tar.gz
-cd mozjpeg-${MOZJPEG_VERSION}
+wget -N ${JPGTURBO_URL}/${JPGTURBO_VERSION}.tar.gz -O jpgturbo-${JPGTURBO_VERSION}.tar.gz
+tar xzf jpgturbo-${JPGTURBO_VERSION}.tar.gz
+cd libjpeg-turbo-${JPGTURBO_VERSION}
 CFLAGS="${CFLAGS} -O3" LDFLAGS=${LDFLAGS/\$/} cmake -G"Unix Makefiles" \
   -DCMAKE_TOOLCHAIN_FILE=/packaging/Toolchain.cmake \
   -DCMAKE_INSTALL_PREFIX=${PREFIX} \

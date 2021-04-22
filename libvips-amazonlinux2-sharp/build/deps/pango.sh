@@ -1,4 +1,5 @@
-PANGO_VERSION=1.48.4
+export PANGO_VERSION=1.48.4
+
 PANGO_URL=https://github.com/GNOME/pango/archive/refs/tags
 
 cd /usr/local/src

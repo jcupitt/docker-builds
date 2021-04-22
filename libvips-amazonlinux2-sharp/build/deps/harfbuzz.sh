@@ -1,4 +1,5 @@
-HARFBUZZ_VERSION=2.8.0
+export HARFBUZZ_VERSION=2.8.0
+
 HARFBUZZ_URL=https://github.com/harfbuzz/harfbuzz/archive
 
 cd /usr/local/src

@@ -1,4 +1,5 @@
-GDKPIXBUF_VERSION=2.42.6
+export GDKPIXBUF_VERSION=2.42.6
+
 GDKPIXBUF_URL=https://download.gnome.org/sources/gdk-pixbuf/${GDKPIXBUF_VERSION%.[[:digit:]]*}
 
 cd /usr/local/src

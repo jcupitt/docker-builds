@@ -1,4 +1,5 @@
-AOM_VERSION=3.0.0
+export AOM_VERSION=3.0.0
+
 AOM_URL=https://storage.googleapis.com/aom-releases
 
 cd /usr/local/src
@@ -14,5 +15,4 @@ AOM_AS_FLAGS="${FLAGS}" LDFLAGS=${LDFLAGS/\$/} cmake -G"Unix Makefiles" \
   -DCONFIG_PIC=1 -DENABLE_NASM=1 \
   -DCONFIG_AV1_HIGHBITDEPTH=0 -DCONFIG_WEBM_IO=0 \
   ..
-make V=0
-make install
+make install/strip

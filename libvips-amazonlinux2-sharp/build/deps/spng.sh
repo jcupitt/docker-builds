@@ -1,4 +1,5 @@
-SPNG_VERSION=0.6.2
+export SPNG_VERSION=0.6.2
+
 SPNG_URL=https://github.com/randy408/libspng/archive
 
 cd /usr/local/src

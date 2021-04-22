@@ -1,4 +1,5 @@
-IMAGEQUANT_VERSION=2.4.1
+export IMAGEQUANT_VERSION=2.4.1
+
 IMAGEQUANT_URL=https://github.com/lovell/libimagequant/archive
 
 cd /usr/local/src
