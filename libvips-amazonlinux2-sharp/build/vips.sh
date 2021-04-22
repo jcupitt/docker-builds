@@ -161,6 +161,16 @@ build pixman
 #   - lcms2
 #   - poppler
 #   - ghostscript
+build mozjpeg
+
+# http://www.linuxfromscratch.org/blfs/view/svn/general/libjpeg.html
+# Dependencies:
+#   - nasm
+# Depended on by:
+#   - gdk-pixbuf
+#   - lcms2
+#   - poppler
+#   - ghostscript
 build jpgturbo
 
 # http://www.linuxfromscratch.org/blfs/view/cvs/general/libtiff.html
