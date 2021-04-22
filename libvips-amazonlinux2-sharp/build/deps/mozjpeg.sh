@@ -1,4 +1,5 @@
-MOZJPEG_VERSION=4.0.3
+export MOZJPEG_VERSION=4.0.3
+
 MOZJPEG_URL=https://github.com/mozilla/mozjpeg/archive
 
 cd /usr/local/src
@@ -14,5 +15,4 @@ CFLAGS="${CFLAGS} -O3" LDFLAGS=${LDFLAGS/\$/} cmake -G"Unix Makefiles" \
   -DWITH_JPEG8=1 \
   -DWITH_TURBOJPEG=FALSE \
   -DPNG_SUPPORTED=FALSE
-make V=0
-make install
+make install/strip

@@ -47,20 +47,6 @@ build () {
 # Depended on by:
 build zlib
 
-# http://www.linuxfromscratch.org/blfs/view/svn/general/pcre.html
-# Dependencies:
-#   - None
-# Depended on by:
-#   - php
-#build pcre
-
-# http://www.linuxfromscratch.org/blfs/view/svn/general/libffi.html
-# Dependencies:
-#   - None
-# Depended on by:
-#   - GLib
-#build ffi
-
 # http://www.linuxfromscratch.org/blfs/view/svn/general/libpng.html
 # Dependencies:
 #   - None
@@ -274,30 +260,6 @@ build cairo
 #   - Freetype
 build harfbuzz
 
-# http://www.linuxfromscratch.org/blfs/view/svn/general/freetype2.html
-# Dependencies:
-#   - HarfBuzz
-# Depended on by:
-#   - fontconfig
-#   - ghostscript
-build freetype
-
-# http://www.linuxfromscratch.org/blfs/view/svn/general/fontconfig.html
-# Dependencies:
-#   - Freetype
-#   - libxml
-# Depended on by:
-#   - pango
-#   - poppler
-#   - ghostscript
-build fontconfig
-
-########################################################################################################################
-#
-#   Stupid freetype harfbuzz
-#
-########################################################################################################################
-
 # http://www.linuxfromscratch.org/blfs/view/svn/x/pango.html
 # Dependencies:
 #   - FontConfig
@@ -392,8 +354,6 @@ build imagemagick
 #   - orc
 #   - libwebp
 #   - swig
-# Depended on by:
-#   - phpvips
 build vips
 
 rm -rf ${PREFIX}/lib/{pkgconfig,.libs,*.la,cmake}
@@ -426,39 +386,6 @@ cd ${PREFIX}/lib
 copydeps libvips-cpp.so.42 ${PREFIX}/lib-filtered
 
 cd ${PREFIX}
-
-AOM_VERSION=3.0.0
-CAIRO_VERSION=1.16.0
-EXIF_VERSION=0.6.22
-EXPAT_VERSION=2.3.0
-FFTW3_VERSION=3.3.9
-FONTCONFIG_VERSION=2.13.93
-FREETYPE_VERSION=2.10.4
-FRIBIDI_VERSION=1.0.9
-GDKPIXBUF_VERSION=2.42.6
-GIF_VERSION=5.1.4
-GLIB_VERSION=2.68.1
-GSF_VERSION=1.14.47
-HARFBUZZ_VERSION=2.8.0
-HEIF_VERSION=1.9.1
-IMAGEMAGICK_VERSION=7.0.11-8
-IMAGEQUANT_VERSION=2.4.1
-LCMS2_VERSION=2.12
-PNG16_VERSION=1.6.37
-MOZJPEG_VERSION=4.0.3
-OPENJPEG_VERSION=2.4.0
-ORC_VERSION=0.4.32
-PANGO_VERSION=1.48.4
-PDFIUM_VERSION=4290
-PIXMAN_VERSION=0.38.4
-POPPLER_VERSION=21.04.0
-SPNG_VERSION=0.6.2
-SVG_VERSION=2.51.1
-TIFF_VERSION=4.2.0
-VIPS_VERSION=master
-WEBP_VERSION=1.0.2
-XML2_VERSION=2.9.10
-ZLIB_VERSION=2.0.2
 
 printf "{\n\
   \"aom\": \"${AOM_VERSION}\",\n\

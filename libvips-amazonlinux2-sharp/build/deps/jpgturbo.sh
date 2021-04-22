@@ -1,4 +1,5 @@
-JPGTURBO_VERSION=2.0.90
+export JPGTURBO_VERSION=2.0.90
+
 JPGTURBO_URL=https://github.com/libjpeg-turbo/libjpeg-turbo/archive
 
 cd /usr/local/src
@@ -14,5 +15,4 @@ CFLAGS="${CFLAGS} -O3" LDFLAGS=${LDFLAGS/\$/} cmake -G"Unix Makefiles" \
   -DWITH_JPEG8=1 \
   -DWITH_TURBOJPEG=FALSE \
   -DPNG_SUPPORTED=FALSE
-make V=0
-make install
+make install/strip

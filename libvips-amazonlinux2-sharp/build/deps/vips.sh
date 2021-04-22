@@ -1,4 +1,5 @@
-VIPS_VERSION=master
+export VIPS_VERSION=master
+
 VIPS_URL=https://github.com/libvips/libvips.git
 
 cd /usr/local/src
