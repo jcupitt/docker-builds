@@ -1,4 +1,4 @@
-# libvips / mozjpeg / ubuntu 18.10
+# libvips / libtiff / mozjpeg / ubuntu 20.04
 
 # Rebuild the image
 
