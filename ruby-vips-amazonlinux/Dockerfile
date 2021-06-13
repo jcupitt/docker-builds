@@ -13,7 +13,10 @@ ENV WORKDIR="/build"
 ENV INSTALLDIR="/opt"
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig 
 
-RUN curl http://mirror.centos.org/centos/8/PowerTools/x86_64/os/Packages/nasm-2.13.03-2.el8.x86_64.rpm --output nasm.rpm && yum install -y nasm.rpm
+ARG PTOOLS_URL=http://mirror.centos.org/centos/8/PowerTools/x86_64/os/Packages
+ARG NASM_VERSION=2.15.03-3
+RUN curl $PTOOLS_URL/nasm-$NASM_VERSION.el8.x86_64.rpm --output nasm.rpm \
+	&& yum install -y nasm.rpm
 
 RUN hg clone http://hg.videolan.org/x265
 RUN cd ./x265/build/linux \
@@ -32,7 +35,7 @@ RUN curl -L $HEIF_URL/v$HEIF_VERSION/libheif-$HEIF_VERSION.tar.gz | tar xz \
 	&& make V=0 \
 	&& make install
 
-ARG VIPS_VERSION=8.10.1
+ARG VIPS_VERSION=8.11.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 # selection of packages for libvips -- you might want to expand this
