@@ -1,10 +1,10 @@
-# libvips / mozjpeg / ubuntu 18.10
+# libvips / mozjpeg / ubuntu 20.04
 
 # Rebuild the image
 
 ```
-docker pull ubuntu:cosmic
-docker build -t libvips-mozjpeg-ubuntu18.10 .
+docker pull ubuntu:focal
+docker build -t libvips-mozjpeg-ubuntu20.04 .
 ```
 
 # Run the test script
@@ -32,12 +32,12 @@ libvips with mozjpeg --overshoot-deringing ... 0.82
 # Run "vipsthumbnail" from the container
 
 ```
-docker run -t --rm -v $PWD:/data libvips-mozjpeg-ubuntu18.10 
+docker run -t --rm -v $PWD:/data libvips-mozjpeg-ubuntu20.04 
 ```
 
 # Open shell in container
 
 ```
 docker run -it --rm -v $PWD:/data --entrypoint /bin/bash \
-  libvips-mozjpeg-ubuntu18.10 
+  libvips-mozjpeg-ubuntu20.04
 ```
