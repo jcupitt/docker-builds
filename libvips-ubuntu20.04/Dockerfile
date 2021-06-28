@@ -15,13 +15,14 @@ RUN apt-get install -y \
 	librsvg2-dev \
 	libpng-dev \
 	libgif-dev \
-	libjpeg-dev \
+	libjpeg-turbo8-dev \
+	libtiff-dev \
 	libexif-dev \
 	liblcms2-dev \
 	libheif-dev \
 	liborc-dev
 
-ARG VIPS_VERSION=8.10.5
+ARG VIPS_VERSION=8.11.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 WORKDIR /usr/local/src
