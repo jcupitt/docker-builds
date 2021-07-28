@@ -8,7 +8,7 @@ RUN apt-get -y update && \
   libexpat1-dev pkg-config glib2.0-dev libimagequant-dev libgsf-1-dev \
   liborc-0.4-dev liblcms2-dev autoconf nasm libtool automake 
 
-ENV VIPS_VERSION=8.8.2
+ENV VIPS_VERSION=8.10.5
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 ENV MOZJPEG_VERSION=3.3.1
