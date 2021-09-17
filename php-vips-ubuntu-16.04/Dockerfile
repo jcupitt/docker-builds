@@ -42,25 +42,24 @@ ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
 ARG WEBP_VERSION=1.2.1
 ARG WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
 
-RUN cd /usr/local/src \
-        && wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
-        && tar xzf libwebp-${WEBP_VERSION}.tar.gz \
-        && cd libwebp-${WEBP_VERSION} \
-        && ./configure --enable-libwebpmux --enable-libwebpdemux \
-        && make V=0 \
-        && make install \
-        && ldconfig
+RUN wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
+    && tar xzf libwebp-${WEBP_VERSION}.tar.gz \
+    && cd libwebp-${WEBP_VERSION} \
+    && ./configure --enable-libwebpmux --enable-libwebpdemux \
+    && make V=0 \
+    && make install \
+    && ldconfig
 
 ARG VIPS_VERSION=8.11.3
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
-        && tar xf vips-${VIPS_VERSION}.tar.gz \
-        && cd vips-${VIPS_VERSION} \
-        && ./configure \
-        && make V=0 \
-        && make install \
-        && ldconfig
+    && tar xf vips-${VIPS_VERSION}.tar.gz \
+    && cd vips-${VIPS_VERSION} \
+    && ./configure \
+    && make V=0 \
+    && make install \
+    && ldconfig
 
 # install the php extension that links it to libvips
 RUN pecl install vips
