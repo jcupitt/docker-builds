@@ -22,5 +22,5 @@ docker run -t \
 docker run --rm -t \
 		-v $PWD:/data \
 		php-vips-ubuntu-16.04 \
-		./overlay.php blank-tshirt.jpg GOSHEN.svg x.jpg
+		./overlay.php blank-tshirt.jpg GOSHEN.svg x.webp
 ```
