@@ -27,7 +27,8 @@ RUN apt-get install -y \
 	libtiff-dev \
 	libexif-dev \
 	liblcms2-dev \
-	liborc-dev
+	liborc-dev \
+	libffi-dev
 
 ARG VIPS_VERSION=8.11.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
