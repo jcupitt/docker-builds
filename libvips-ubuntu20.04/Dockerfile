@@ -22,7 +22,7 @@ RUN apt-get install -y \
 	libheif-dev \
 	liborc-dev
 
-ARG VIPS_VERSION=8.11.0
+ARG VIPS_VERSION=8.9.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 WORKDIR /usr/local/src
