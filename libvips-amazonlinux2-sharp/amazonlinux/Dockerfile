@@ -14,7 +14,6 @@ RUN yum update -y \
     python3 \
     gcc-c++ \
     advancecomp \
-    brotli \
     cmake3 \
     gobject-introspection-devel \
     libtool \
@@ -28,7 +27,7 @@ RUN yum update -y \
 
 RUN yum install -y \
   https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-RUN yum install -y libcxx
+RUN yum install -y libcxx brotli
 
 ENV PREFIX=/usr/local/vips
 

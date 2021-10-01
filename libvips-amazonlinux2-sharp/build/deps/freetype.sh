@@ -1,4 +1,5 @@
-FREETYPE_VERSION=2.10.4
+export FREETYPE_VERSION=2.10.4
+
 FREETYPE_URL=https://download.savannah.gnu.org/releases/freetype
 
 cd /usr/local/src
@@ -11,5 +12,4 @@ cd freetype-${FREETYPE_VERSION}
   --disable-dependency-tracking \
   --without-bzip2 \
   --without-png
-make V=0
 make install

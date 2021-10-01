@@ -1,4 +1,5 @@
-FRIBIDI_VERSION=1.0.9
+export FRIBIDI_VERSION=1.0.9
+
 FRIBIDI_URL=https://github.com/fribidi/fribidi/releases/download/v${FRIBIDI_VERSION}
 
 cd /usr/local/src

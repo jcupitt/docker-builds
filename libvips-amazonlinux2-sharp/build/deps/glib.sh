@@ -1,4 +1,5 @@
-GLIB_VERSION=2.68.1
+export GLIB_VERSION=2.68.1
+
 GLIB_URL=https://download.gnome.org/sources/glib/${GLIB_VERSION%.[[:digit:]]*}
 
 cd /usr/local/src
