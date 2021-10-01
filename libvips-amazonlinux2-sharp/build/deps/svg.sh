@@ -1,4 +1,5 @@
-SVG_VERSION=2.51.1
+export SVG_VERSION=2.51.1
+
 SVG_URL=https://download.gnome.org/sources/librsvg/${SVG_VERSION%.[[:digit:]]*}
 
 cd /usr/local/src
@@ -18,5 +19,4 @@ sed -i'.bak' "/SCRIPTS = /d" Makefile.in
   --disable-nls \
   --without-libiconv-prefix \
   --without-libintl-prefix
-make V=0
-make install
+make install-strip

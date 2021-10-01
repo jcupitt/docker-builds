@@ -1,4 +1,5 @@
-WEBP_VERSION=1.0.2
+export WEBP_VERSION=1.0.2
+
 WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
 
 cd /usr/local/src
@@ -10,5 +11,4 @@ cd libwebp-${WEBP_VERSION}
   --enable-static --disable-shared \
   --enable-libwebpmux \
   --enable-libwebpdemux
-make V=0
-make install
+make install-strip

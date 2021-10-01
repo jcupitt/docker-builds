@@ -1,5 +1,6 @@
+export CAIRO_VERSION=1.16.0
+
 CAIRO_URL=https://ftp.osuosl.org/pub/blfs/conglomeration/cairo
-CAIRO_VERSION=1.16.0
 
 cd /usr/local/src
 wget -N ${CAIRO_URL}/cairo-${CAIRO_VERSION}.tar.xz
@@ -23,5 +24,4 @@ CFLAGS="$CFLAGS -fno-function-sections -fno-data-sections" LDFLAGS="$LDFLAGS -Wl
   --disable-interpreter \
   --disable-quartz \
   LIBS="-lpixman-1 -lfreetype"
-make V=0
-make install
+make install-strip
