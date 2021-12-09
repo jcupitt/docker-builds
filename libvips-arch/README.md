@@ -18,7 +18,7 @@ https://gitlab.freedesktop.org/gstreamer/orc/issues/25
 # Rebuild the image
 
 ```
-docker pull archlinux/base:latest
+docker pull archlinux:base
 docker build -t libvips-archlinux .
 ```
 
