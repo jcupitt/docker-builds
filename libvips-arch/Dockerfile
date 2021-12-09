@@ -28,7 +28,7 @@ RUN pacman -S --noconfirm \
 	pango \
 	poppler-glib 
 
-ARG VIPS_VERSION=8.8.2
+ARG VIPS_VERSION=8.12.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 ENV VIPSHOME /usr/local/vips
 
@@ -38,7 +38,7 @@ RUN cd /usr/local/src \
 	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
-	&& ./configure --prefix=$VIPSHOME \
+	&& ./configure --enable-static --prefix=$VIPSHOME \
 	&& make V=0 \
 	&& make install
 
