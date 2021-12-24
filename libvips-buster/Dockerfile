@@ -7,21 +7,22 @@ RUN apt-get -y update \
     wget 
 
 RUN apt-get -y install \
-  libmagickcore-dev \
-  libtiff5-dev \
-  libpng-dev \
-  libfftw3-dev \
-  librsvg2-dev \
-  libgif-dev \
+  glib2.0-dev \
   libexif-dev \
   libexpat1-dev \
-  glib2.0-dev \
-  libimagequant-dev \
+  libfftw3-dev \
+  libgif-dev \
   libgsf-1-dev \
+  libimagequant-dev \
+  liblcms2-dev \
+  libmagickcore-dev \
+  libopenjp2-7-dev \
   liborc-0.4-dev \
-  liblcms2-dev 
+  libpng-dev \
+  librsvg2-dev \
+  libtiff5-dev 
 
-ENV VIPS_VERSION=8.11.2
+ENV VIPS_VERSION=8.12.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 WORKDIR /usr/local/src
