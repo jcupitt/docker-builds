@@ -1,9 +1,10 @@
 FROM ubuntu:xenial
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update 
+RUN apt-get install -y \
     curl
 
-WORKDIR /usr/src
+WORKDIR /usr/local/src
 
 # install node8 via the official PPA ... the nodejs that comes with 
 # ubuntu16.04 is 4.x and is no longer supported
