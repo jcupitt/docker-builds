@@ -8,17 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
   && apt-get install -y \
     build-essential \
-    autoconf \
-    automake \
-    libtool \
     nasm \
-    unzip \
     wget \
-    git \
-    pkg-config \
-    unzip \
-    gtk-doc-tools \
-    gobject-introspection
+    pkg-config 
 
 RUN apt-get update \
   && apt-get install -y 
@@ -66,20 +58,19 @@ RUN apt-get install -y \
   libexpat-dev \
   librsvg2-dev \
   libpng-dev \
-  libgif-dev \
   libjpeg-dev \
   libexif-dev \
   liblcms2-dev \
   libheif-dev \
   liborc-dev 
 
-ARG VIPS_VERSION=v8.12.1
-ARG VIPS_URL=https://github.com/libvips/libvips.git
+ARG VIPS_VERSION=8.12.2
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-RUN git clone $VIPS_URL \
-  && cd libvips \
-  && git checkout $VIPS_VERSION \
-  && ./autogen.sh --prefix $PREFIX \
+RUN wget $VIPS_URL/v$VIPS_VERSION/vips-$VIPS_VERSION.tar.gz \
+  && tar xf vips-$VIPS_VERSION.tar.gz \
+  && cd vips-$VIPS_VERSION \
+  && ./configure --prefix $PREFIX \
   && make V=0 \
   && make install
 
