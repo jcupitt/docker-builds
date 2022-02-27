@@ -1,93 +1,165 @@
 FROM heroku/heroku:18
 
-# useful build tools ... we need gtk-doc to build orc, since they don't ship
-# pre-baked tarballs
-RUN apt-get update && apt-get install -y \
-	build-essential \
-	autoconf \
-	automake \
-	libtool \
-	intltool \
-	gtk-doc-tools \
-	unzip \
-	wget \
-	git \
-	pkg-config 
+# generic build tools  ... libgsf needs intltool
+RUN apt-get update \
+	&& apt-get install -y \
+		build-essential \
+		wget \
+		python3-pip \
+		ninja-build \
+		intltool \
+		pkg-config 
 
-# heroku:18 includes some libraries, like tiff and jpeg, as part of the
-# run-time platform, and we want to use those libs if we can
+RUN pip3 install meson
+
+# use the heroku platform libraries when we can
 #
 # see https://devcenter.heroku.com/articles/stack-packages
 #
 # libgsf needs libxml2
+# 
+# this should only pull in header files and should not create any extra run
+# time dependencies
 RUN apt-get install -y \
 	glib-2.0-dev \
-	libexpat-dev \
+	libexpat1-dev \
+	libpango1.0-dev \
 	librsvg2-dev \
 	libpng-dev \
-	libjpeg-dev \
+	libwebp-dev \
+	libjpeg-turbo8-dev \
 	libtiff5-dev \
 	libexif-dev \
 	liblcms2-dev \
 	libxml2-dev \
 	libfftw3-dev 
 
-ARG GIFLIB_VERSION=5.1.4
-ARG GIFLIB_URL=http://downloads.sourceforge.net/project/giflib
+WORKDIR /usr/local/src
 
-RUN cd /usr/src \
-	&& wget ${GIFLIB_URL}/giflib-$GIFLIB_VERSION.tar.bz2 \
-	&& tar xf giflib-${GIFLIB_VERSION}.tar.bz2 \
-	&& cd giflib-${GIFLIB_VERSION} \
-	&& ./configure --prefix=/usr/src/vips \
-	&& make \
-	&& make install
+# build to this prefix 
+#  - heroku has /usr/local/lib on the default ld.so.conf search path, so 
+#    this is convenient
+#  - heroku has a basic dir structure in /usr/local, but no files
+ARG PREFIX=/usr/local
+ENV PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 
-ARG ORC_VERSION=0.4.28
-ARG ORC_URL=http://cgit.freedesktop.org/gstreamer/orc/snapshot
+# the main libimagequant is now gpl3 and we can't use it ... this is a 
+# maintained fork of the old BSD-licensed version
+ARG IMAGEQUANT_VERSION=main
+ARG IMAGEQUANT_URL=https://github.com/lovell/libimagequant
 
-RUN cd /usr/src \
-	&& wget ${ORC_URL}/orc-$ORC_VERSION.tar.gz \
-	&& tar xf orc-${ORC_VERSION}.tar.gz \
+RUN git clone $IMAGEQUANT_URL \
+	&& cd libimagequant \
+	&& git checkout $IMAGEQUANT_VERSION \
+	&& meson build --prefix=${PREFIX} --libdir=lib \
+	&& cd build \
+	&& ninja \
+	&& ninja install
+
+# need to add heif
+
+ARG ORC_VERSION=0.4.32
+ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
+
+RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
+	&& tar xf orc-${ORC_VERSION}.tar.xz \
 	&& cd orc-${ORC_VERSION} \
-	&& ./autogen.sh \
-	&& ./configure --prefix=/usr/src/vips --disable-gtk-doc \
-	&& make \
-	&& make install
+	&& meson build --prefix=${PREFIX} --libdir=lib \
+	&& cd build \
+	&& ninja \
+	&& ninja install
 
-ARG GSF_VERSION=1.14.42
+ARG GSF_VERSION=1.14.48
 ARG GSF_URL=http://ftp.gnome.org/pub/GNOME/sources/libgsf
 
-RUN cd /usr/src \
-	&& wget ${GSF_URL}/${GSF_VERSION%.*}/libgsf-$GSF_VERSION.tar.xz \
+RUN wget ${GSF_URL}/${GSF_VERSION%.*}/libgsf-$GSF_VERSION.tar.xz \
 	&& tar xf libgsf-${GSF_VERSION}.tar.xz \
 	&& cd libgsf-${GSF_VERSION} \
-	&& ./configure --prefix=/usr/src/vips --disable-gtk-doc \
+	&& ./configure --prefix=$PREFIX --disable-gtk-doc \
 	&& make \
 	&& make install
 
-# extract libpdfium built for heroku
-COPY libpdfium-master-linux-x64.tar.gz /usr/src
-RUN cd /usr/src/vips \
-	&& tar xf ../libpdfium-master-linux-x64.tar.gz 
+# use cgif for GIF write
+ARG CGIF_VERSION=0.2.0
+ARG CGIF_URL=https://github.com/dloebl/cgif/archive/refs/tags
 
-ARG VIPS_VERSION=8.7.1
+RUN wget ${CGIF_URL}/V${CGIF_VERSION}.tar.gz \
+	&& tar xf V${CGIF_VERSION}.tar.gz \
+	&& cd cgif-${CGIF_VERSION} \
+	&& meson build --prefix=${PREFIX} --libdir=lib \
+	&& cd build \
+	&& ninja \
+	&& ninja install
+
+# use libspng for PNG load (libvips 8.13 will support PNG save as well, but
+# for now it's only load)
+ARG SPNG_VERSION=0.7.2
+ARG SPNG_URL=https://github.com/randy408/libspng/archive/refs/tags
+
+RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
+	&& tar xf v${SPNG_VERSION}.tar.gz \
+	&& cd libspng-${SPNG_VERSION} \
+	&& meson build --prefix=${PREFIX} --libdir=lib \
+	&& cd build \
+	&& ninja \
+	&& ninja install
+
+# the version number is was correct in feb 2022 ... it just needs to be >4200
+# for libvips
+ARG PDFIUM_URL=https://github.com/bblanchon/pdfium-binaries/releases/latest/download
+ARG PDFIUM_VERSION=4901
+
+RUN wget $PDFIUM_URL/pdfium-linux-x64.tgz \
+	&& mkdir pdfium \
+	&& cd pdfium \
+	&& tar xf ../pdfium-linux-x64.tgz \
+	&& cp lib/* $PREFIX/lib \
+	&& cp -r include/* $PREFIX/include
+
+# make a pdfium.pc file libvips can use
+RUN mkdir -p $PREFIX/lib/pkgconfig \
+	&& cd $PREFIX/lib/pkgconfig \
+	&& echo "prefix=$PREFIX" >> pdfium.pc \
+	&& echo "exec_prefix=\${prefix}" >> pdfium.pc \
+	&& echo "libdir=\${exec_prefix}/lib" >> pdfium.pc \
+	&& echo "includedir=\${prefix}/include" >> pdfium.pc \
+	&& echo "Name: pdfium" >> pdfium.pc \
+	&& echo "Description: pdfium" >> pdfium.pc \
+	&& echo "Version: $PDFIUM_VERSION" >> pdfium.pc \
+	&& echo "Requires: " >> pdfium.pc \
+	&& echo "Libs: -L\${libdir} -lpdfium" >> pdfium.pc \
+	&& echo "Cflags: -I\${includedir}" >> pdfium.pc
+
+ARG VIPS_VERSION=8.12.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-RUN cd /usr/src \
-	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
-	&& export PKG_CONFIG_PATH=/usr/src/vips/lib/pkgconfig \
-	&& ./configure --prefix=/usr/src/vips --disable-gtk-doc \
-	&& make \
+	&& ./configure --prefix=$PREFIX \
+		--disable-deprecated \
+		--without-radiance \
+		--without-analyze \
+	&& make V=0 \
 	&& make install
 
-# clean the build area ready for packaging
-RUN cd /usr/src/vips \
-	&& rm bin/gif* bin/orc* bin/gsf* bin/batch_* bin/vips-8.7 \
-	&& rm bin/vipsprofile bin/light_correct bin/shrink_width \
-	&& strip lib/*.a lib/lib*.so* \
-	&& rm -rf share/gtk-doc \
-	&& rm -rf share/man \
-	&& rm -rf share/thumbnailers 
+# clean and package
+RUN cd $PREFIX \
+	&& cp -r lib libvips-heroku20 \
+	&& cd libvips-heroku20 \
+	&& rm *.a \
+	&& rm *.la \
+	&& strip lib*.so* \
+	&& rm -rf pkgconfig \
+	&& rm -rf python* \
+	&& tar cfz ../libvips-heroku18.tar.gz * \
+	&& echo built libvips-heroku18.tar.gz \
+ 	&& ls -l $PREFIX/libvips-heroku18.tar.gz
+
+# install and test ruby-vips to confirm we can pick up the libraries
+# correctly 
+# we need ruby-dev to install ruby-ffi
+ENV LD_LIBRAY_PATH=$PREFIX/lib
+RUN apt-get install -y ruby-dev
+RUN gem install ruby-vips
+RUN ruby -e 'require "vips"; puts "ruby-vips: libvips #{Vips::LIBRARY_VERSION}"'

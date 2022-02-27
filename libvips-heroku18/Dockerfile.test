@@ -1,0 +1,14 @@
+FROM heroku/heroku:18
+
+RUN apt-get update \
+	&& apt-get install -y ruby-dev
+
+COPY libvips-heroku18.tar.gz /usr/local/src
+
+RUN cd /usr/local/lib \
+    && tar xf /usr/local/src/libvips-heroku18.tar.gz \
+    && ldconfig
+
+RUN gem install ruby-vips
+
+RUN ruby -e 'require "vips"; puts "ruby-vips: libvips #{Vips::LIBRARY_VERSION}"'
