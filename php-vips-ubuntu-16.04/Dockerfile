@@ -50,7 +50,7 @@ RUN wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
     && make install \
     && ldconfig
 
-ARG VIPS_VERSION=8.11.3
+ARG VIPS_VERSION=8.12.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
