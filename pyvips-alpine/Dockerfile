@@ -1,7 +1,4 @@
-FROM alpine:latest
-
-ARG VIPS_VERSION=8.10.0
-ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+FROM alpine:3.14
 
 RUN apk update && apk upgrade
 
@@ -37,22 +34,24 @@ RUN apk add \
 # there are other optional deps you can add for openslide / openexr /
 # imagmagick support / Matlab support etc etc
 
+ARG VIPS_VERSION=8.12.2
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+
 RUN wget -O- ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	| tar xzC /tmp
 RUN cd /tmp/vips-${VIPS_VERSION} \
-	&& ./configure --prefix=/usr --disable-static --disable-debug \
-	&& make V=0 \
+	&& ./configure --prefix=/usr \
+		--disable-static \
+		--disable-debug \
+		--disable-deprecated \
+	&& make -j 16 V=0 \
 	&& make install 
 
 RUN apk add \
 	python3-dev \
 	py3-pip
 
-# and now pyvips can go on ... bizarrely, we must install cffi explicitly
-# (even though pyvips lists it as a dependency), and we must install in two
-# phases
-# some kind of pip bug?
-RUN pip3 install cffi 
+RUN pip3 install wheel
 RUN pip3 install pyvips
 
 WORKDIR /data
