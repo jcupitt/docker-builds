@@ -41,23 +41,18 @@ RUN wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
     && make V=0 \
     && make install
 
-# install libheif
-RUN yum install -y https://download1.rpmfusion.org/free/el/updates/7/x86_64/l/libde265-1.0.2-6.el7.x86_64.rpm \
-    && yum install -y https://download1.rpmfusion.org/free/el/updates/7/x86_64/x/x265-libs-2.9-3.el7.x86_64.rpm \
-    && yum install -y https://download1.rpmfusion.org/free/el/updates/7/x86_64/l/libheif-1.3.2-2.el7.x86_64.rpm \
-    && yum install -y https://download1.rpmfusion.org/free/el/updates/7/x86_64/l/libheif-devel-1.3.2-2.el7.x86_64.rpm
-
-
-ARG VIPS_VERSION=8.10.5
-ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+ARG VIPS_VERSION=8.13.0
+#ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+ARG VIPS_URL=http://www.rollthepotato.net/~john
 
 # so libvips picks up our new libwebp
 ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
 # so your app can open shared object file of libvips.so.42
 ENV LD_LIBRARY_PATH /usr/local/lib
 
-RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
-    && tar xzf vips-${VIPS_VERSION}.tar.gz \
+#RUN wget ${VIPS_URL}/v${VIPS_VERSION}-rc1/vips-${VIPS_VERSION}-rc1.tar.gz \
+RUN wget ${VIPS_URL}/vips-${VIPS_VERSION}-rc2.tar.gz \
+    && tar xzf vips-${VIPS_VERSION}-rc2.tar.gz \
     && cd vips-${VIPS_VERSION} \
     && ./configure \
     && make V=0 \
