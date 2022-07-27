@@ -17,7 +17,6 @@ RUN yum install -y \
 # stuff we need to build our own libvips ... this is a pretty basic selection
 # of dependencies, you'll want to adjust these
 RUN yum install -y \
-    # gtk-doc \
     glib2-devel \
     orc-devel \
     expat-devel \
@@ -42,17 +41,15 @@ RUN wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
     && make install
 
 ARG VIPS_VERSION=8.13.0
-#ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
-ARG VIPS_URL=http://www.rollthepotato.net/~john
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 # so libvips picks up our new libwebp
 ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
 # so your app can open shared object file of libvips.so.42
 ENV LD_LIBRARY_PATH /usr/local/lib
 
-#RUN wget ${VIPS_URL}/v${VIPS_VERSION}-rc1/vips-${VIPS_VERSION}-rc1.tar.gz \
-RUN wget ${VIPS_URL}/vips-${VIPS_VERSION}-rc2.tar.gz \
-    && tar xzf vips-${VIPS_VERSION}-rc2.tar.gz \
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
+    && tar xzf vips-${VIPS_VERSION}.tar.gz \
     && cd vips-${VIPS_VERSION} \
     && ./configure \
     && make V=0 \
