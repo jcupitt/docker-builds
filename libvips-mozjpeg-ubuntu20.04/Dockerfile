@@ -23,7 +23,7 @@ RUN apt-get update \
     git \
     pkg-config 
 
-ARG MOZJPEG_VERSION=4.0.3
+ARG MOZJPEG_VERSION=4.1.1
 ARG MOZJPEG_URL=https://github.com/mozilla/mozjpeg/archive
 
 # needed by mozjpeg
@@ -42,7 +42,7 @@ RUN cd mozjpeg-${MOZJPEG_VERSION} \
   && make \
   && make install
 
-ARG VIPS_VERSION=8.11.0
+ARG VIPS_VERSION=8.13.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 # we must not use any packages which depend directly or indirectly on libjpeg,
@@ -56,13 +56,12 @@ RUN apt-get install -y \
   liblcms2-dev \
   liborc-dev 
 
-RUN cd /usr/local/src \
-  && wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
   && tar xzf vips-${VIPS_VERSION}.tar.gz 
 
 # libvips is marked up for auto-vectorisation ... -O3 is the optimisation
 # level that enables this for gcc
-RUN cd /usr/local/src/vips-${VIPS_VERSION} \
+RUN cd vips-${VIPS_VERSION} \
   && CFLAGS=-O3 CXXFLAGS=-O3 ./configure \
   && make V=0 \
   && make install
