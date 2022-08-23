@@ -9,21 +9,32 @@ RUN yum update -y \
 RUN yum groupinstall -y "Development Tools" \
 	&& yum install -y wget tar
 
-# stuff we need to build our own libvips ... this is a pretty basic selection
-# of dependencies, you'll want to adjust these
+WORKDIR /usr/local/src
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
+
+# packages needed by libgsf
+RUN yum install -y \
+	glib2-devel \
+	libxml2-devel
+
+ARG LIBGSF_VERSION=1.14.45
+ARG LIBGSF_URL=https://download.gnome.org/sources/libgsf/1.14
+
+RUN wget ${LIBGSF_URL}/libgsf-${LIBGSF_VERSION}.tar.xz \
+    && tar xf libgsf-${LIBGSF_VERSION}.tar.xz \
+	&& cd libgsf-${LIBGSF_VERSION} \
+	&& ./configure \
+	&& make V=0 \
+	&& make install
+
+# packages for libvips ... adjust these
 RUN yum install -y \
 	libpng-devel \
-	glib2-devel \
 	libjpeg-devel \
 	expat-devel \
 	zlib-devel \
+	fftw-devel \
 	libexif-devel
-
-# install this, but then ask libvips to ignore it
-RUN yum install -y \
-	fftw-devel
-
-WORKDIR /usr/local/src
 
 ARG VIPS_VERSION=8.13.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
@@ -31,8 +42,8 @@ ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
 	&& cd vips-${VIPS_VERSION} \
-	&& ./configure --without-fftw \
-	&& make \
+	&& ./configure \
+	&& make V=0 \
 	&& make install
 
 RUN ldd /usr/local/bin/vips 
