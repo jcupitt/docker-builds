@@ -17,7 +17,6 @@ RUN apt-get install -y \
 	libexif-dev \
 	liblcms2-dev \
 	libpango1.0-dev \
-	libpango1.0-dev \
 	libgirepository1.0-dev \
 	liborc-dev 
 
