@@ -34,6 +34,10 @@ RUN mkdir libvips-${VIPS_BRANCH} \
 	&& cd libvips-${VIPS_BRANCH} \
 	&& wget ${VIPS_URL}/${VIPS_BRANCH} -O - | tar xfz - --strip-components 1
 
+# "ninja test" needs bc for float arithmetic
+RUN apt-get install -y --no-install-recommends \
+	bc
+
 # "--libdir lib" makes it put the library in /usr/local/lib
 # we don't need GOI
 RUN cd libvips-${VIPS_BRANCH} \
@@ -41,16 +45,5 @@ RUN cd libvips-${VIPS_BRANCH} \
 	&& meson build --libdir lib -Dintrospection=false \
 	&& cd build \
 	&& ninja \
+	&& ninja test \
 	&& ninja install
-
-# so we find the new libs
-RUN ldconfig
-
-# "ninja test" needs bc for float arithmetic
-RUN apt-get install -y --no-install-recommends \
-	bc
-
-RUN cd libvips-${VIPS_BRANCH} \
-	&& cd build \
-	&& ninja test
-
