@@ -42,7 +42,7 @@ RUN apt-get install -y --no-install-recommends \
 # we don't need GOI
 RUN cd libvips-${VIPS_BRANCH} \
 	&& rm -rf build \
-	&& meson build --libdir lib -Dintrospection=false \
+	&& meson build --libdir lib -Dintrospection=false --buildtype release \
 	&& cd build \
 	&& ninja \
 	&& ninja test \
