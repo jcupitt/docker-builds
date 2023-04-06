@@ -5,10 +5,7 @@ RUN apk update && apk upgrade
 # basic packages libvips likes
 RUN apk add \
 	build-base \
-	autoconf \
-	automake \
-	libtool \
-	bc \
+	meson \
 	zlib-dev \
 	expat-dev \
 	jpeg-dev \
@@ -18,7 +15,6 @@ RUN apk add \
 	libexif-dev \
 	lcms2-dev \
 	fftw-dev \
-	giflib-dev \
 	libpng-dev \
 	libwebp-dev \
 	orc-dev \
@@ -34,23 +30,24 @@ RUN apk add \
 # there are other optional deps you can add for openslide / openexr /
 # imagmagick support / Matlab support etc etc
 
-ARG VIPS_VERSION=8.12.2
+WORKDIR /usr/local/src
+
+ARG VIPS_VERSION=8.14.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-RUN wget -O- ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
-	| tar xzC /tmp
-RUN cd /tmp/vips-${VIPS_VERSION} \
-	&& ./configure --prefix=/usr \
-		--disable-static \
-		--disable-debug \
-		--disable-deprecated \
-	&& make -j 16 V=0 \
-	&& make install 
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz
 
+RUN tar xf vips-${VIPS_VERSION}.tar.xz \
+	&& cd vips-${VIPS_VERSION} \
+	&& meson setup build --buildtype release -Dintrospection=false \
+	&& cd build \
+	&& meson compile \
+	&& meson install
+
+# stuff for pyvips
 RUN apk add \
 	python3-dev \
 	py3-pip
-
 RUN pip3 install wheel
 RUN pip3 install pyvips
 
