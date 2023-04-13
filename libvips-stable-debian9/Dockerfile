@@ -27,12 +27,10 @@ RUN apt-get install -y --no-install-recommends \
 WORKDIR /usr/local/src
 
 # build the head of the stable 8.13 branch
-ARG VIPS_BRANCH=8.13
-ARG VIPS_URL=https://github.com/libvips/libvips/tarball
+ARG VIPS_VERSION=8.14.2
+ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-RUN mkdir libvips-${VIPS_BRANCH} \
-	&& cd libvips-${VIPS_BRANCH} \
-	&& wget ${VIPS_URL}/${VIPS_BRANCH} -O - | tar xfz - --strip-components 1
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz
 
 # "ninja test" needs bc for float arithmetic
 RUN apt-get install -y --no-install-recommends \
@@ -40,7 +38,8 @@ RUN apt-get install -y --no-install-recommends \
 
 # "--libdir lib" makes it put the library in /usr/local/lib
 # we don't need GOI
-RUN cd libvips-${VIPS_BRANCH} \
+RUN tar xf vips-${VIPS_VERSION}.tar.xz \
+    && cd vips-${VIPS_VERSION} \
 	&& rm -rf build \
 	&& meson build --libdir lib -Dintrospection=false --buildtype release \
 	&& cd build \
