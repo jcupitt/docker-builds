@@ -2,10 +2,6 @@ FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# mozjpeg installs to /opt/mozjpeg ... we need that on PKG_CONFIG_PATH so
-# that libvips configure can find it
-ENV PKG_CONFIG_PATH /opt/mozjpeg/lib64/pkgconfig
-
 # libvips installs to /usr/local by default .. /usr/local/bin is on the
 # default path in ubuntu, but /usr/local/lib is not
 ENV LD_LIBRARY_PATH /usr/local/lib
