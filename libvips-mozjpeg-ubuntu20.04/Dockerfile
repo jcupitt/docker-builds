@@ -15,6 +15,8 @@ WORKDIR /usr/local/src
 # basic build tools
 RUN apt-get update \
   && apt-get install -y \
+    python3-pip \
+    ninja-build \
     build-essential \
     nasm \
     cmake \
@@ -22,6 +24,9 @@ RUN apt-get update \
     wget \
     git \
     pkg-config 
+
+# libvips need meson 0.55 or newer, focal ships 0.53.2
+RUN pip3 install meson 
 
 ARG MOZJPEG_VERSION=4.1.1
 ARG MOZJPEG_URL=https://github.com/mozilla/mozjpeg/archive
@@ -42,29 +47,30 @@ RUN cd mozjpeg-${MOZJPEG_VERSION} \
   && make \
   && make install
 
-ARG VIPS_VERSION=8.13.0
+ARG VIPS_VERSION=8.14.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 # we must not use any packages which depend directly or indirectly on libjpeg,
 # since we want to use our own mozjpeg build 
+# if you need eg. imagemagick, you'll need to build it from source
 RUN apt-get install -y \
   libglib2.0-dev \
   libexpat-dev \
   libpng-dev \
-  libgif-dev \
   libexif-dev \
   liblcms2-dev \
   liborc-dev 
 
-RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
-  && tar xzf vips-${VIPS_VERSION}.tar.gz 
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz 
 
 # libvips is marked up for auto-vectorisation ... -O3 is the optimisation
 # level that enables this for gcc
-RUN cd vips-${VIPS_VERSION} \
-  && CFLAGS=-O3 CXXFLAGS=-O3 ./configure \
-  && make V=0 \
-  && make install
+RUN tar xf vips-${VIPS_VERSION}.tar.xz \
+  && cd vips-${VIPS_VERSION} \
+  && meson setup build --libdir=lib --buildtype release -Dintrospection=false \
+  && cd build \
+  && ninja \
+  && ninja install
 
 WORKDIR /data
 ENTRYPOINT ["/usr/local/bin/vipsthumbnail"]
