@@ -12,7 +12,4 @@ docker build -t libvips-heroku22 .
 
 # TODO
 
-- check the size of the binary tarball, and the size on disc
-- strip a bit more?
-- remove C++ libs and headers?
 - pull the packaged tarball back out of the container 
