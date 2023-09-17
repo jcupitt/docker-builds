@@ -31,6 +31,7 @@ RUN apt-get install -y \
 	libgsf-1-dev \
 	liborc-0.4-dev \
 	libimagequant-dev \
+    libpoppler-glib-dev \
 	libcgif-dev \
 	libheif-dev \
 	libfftw3-dev 
@@ -44,30 +45,8 @@ WORKDIR /usr/local/src
 ARG PREFIX=/usr/local
 ENV PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 
-# last updated 16sep23
-ARG PDFIUM_VERSION=6002
-ARG PDFIUM_URL=https://github.com/bblanchon/pdfium-binaries/releases/download/chromium
-
-RUN wget $PDFIUM_URL/$PDFIUM_VERSION/pdfium-linux-x64.tgz \
-  && mkdir pdfium \
-  && cd pdfium \
-  && tar xf ../pdfium-linux-x64.tgz \
-  && cp lib/* $PREFIX/lib \
-  && cp -r include/* $PREFIX/include
-
-# make a pdfium.pc file libvips can use
-RUN mkdir -p $PREFIX/lib/pkgconfig \
-  && cd $PREFIX/lib/pkgconfig \
-  && echo "prefix=$PREFIX" >> pdfium.pc \
-  && echo "exec_prefix=\${prefix}" >> pdfium.pc \
-  && echo "libdir=\${exec_prefix}/lib" >> pdfium.pc \
-  && echo "includedir=\${prefix}/include" >> pdfium.pc \
-  && echo "Name: pdfium" >> pdfium.pc \
-  && echo "Description: pdfium" >> pdfium.pc \
-  && echo "Version: $PDFIUM_VERSION" >> pdfium.pc \
-  && echo "Requires: " >> pdfium.pc \
-  && echo "Libs: -L\${libdir} -lpdfium" >> pdfium.pc \
-  && echo "Cflags: -I\${includedir}" >> pdfium.pc
+# we can't use pdfium since their binaries use a different C++ compiler from
+# the one that libheif builds with
 
 # use libspng for PNG load and save
 ARG SPNG_VERSION=0.7.4
@@ -93,6 +72,7 @@ RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz \
 		--buildtype=release \
 		-Dradiance=false \
 		-Danalyze=false \
+		-Dmodules=disabled \
 		-Dintrospection=false \
 	&& cd build \
 	&& meson compile \
@@ -103,7 +83,6 @@ RUN cd $PREFIX \
 	&& cp -r lib libvips-heroku22 \
 	&& cd libvips-heroku22 \
 	&& strip lib*.so* \
-	&& strip vips-modules-8.14/*.so \
 	&& rm -rf pkgconfig \
 	&& rm -rf python* \
 	&& tar cfz ../libvips-heroku22.tar.gz * \
