@@ -10,7 +10,7 @@ date libwebp.
 # Rebuild the image
 
 ```
-docker pull amazonlinux:2
+docker pull amazoncorretto:19.0.2
 docker build -t libvips-amazonlinux:2 .
 id=$(docker create libvips-amazonlinux:2)
 docker cp $id:/usr/local/vips - > vips.tar.gz

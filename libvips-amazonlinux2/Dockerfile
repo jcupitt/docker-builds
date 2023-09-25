@@ -1,28 +1,21 @@
-FROM amazonlinux:2
+FROM amazoncorretto:19.0.2
 
 # general build stuff
 RUN yum update -y \
 	&& yum groupinstall -y "Development Tools" \
-	&& yum install -y wget tar
-
-# libvips needs libwebp 0.5 or later and the one on amazonlinux2 is 0.3.0, so
-# we have to build it ourselves
-
-# packages needed by libwebp
-RUN yum install -y \
-	libjpeg-devel \
-	libpng-devel \
-	libtiff-devel \
-	libgif-devel 
+	&& yum install -y \
+		wget \
+		tar \
+		python3-devel
 
 # stuff we need to build our own libvips ... this is a pretty basic selection
 # of dependencies, you'll want to adjust these
 # dzsave needs libgsf
 RUN yum install -y \
-	libpng-devel \
 	poppler-glib-devel \
 	glib2-devel \
 	libjpeg-devel \
+	libtiff-devel \
 	expat-devel \
 	zlib-devel \
 	orc-devel \
@@ -36,31 +29,37 @@ RUN yum install -y \
 RUN yum install -y \
 	openslide-devel 
 
-# non-standard stuff we build from source goes here
-ENV VIPSHOME /usr/local/vips
-ENV PKG_CONFIG_PATH $VIPSHOME/lib/pkgconfig
+# get ninja thourgh pip (the distro one is too old)
+RUN pip3 install meson ninja pytest
 
-ARG WEBP_VERSION=1.1.0
-ARG WEBP_URL=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
+WORKDIR /usr/local/src
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
+ENV LD_LIBRARY_PATH /usr/local/lib64
 
-RUN cd /usr/local/src \
-	&& wget ${WEBP_URL}/libwebp-${WEBP_VERSION}.tar.gz \
-	&& tar xzf libwebp-${WEBP_VERSION}.tar.gz \
-	&& cd libwebp-${WEBP_VERSION} \
-	&& ./configure --enable-libwebpmux --enable-libwebpdemux \
-		--prefix=$VIPSHOME \
-	&& make V=0 \
-	&& make install
+# use libspng for PNG load and save
+ARG SPNG_VERSION=0.7.4
+ARG SPNG_URL=https://github.com/randy408/libspng/archive/refs/tags
 
-ARG VIPS_VERSION=8.10.5
+RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
+	&& tar xf v${SPNG_VERSION}.tar.gz \
+	&& cd libspng-${SPNG_VERSION} \
+	&& meson build \
+	&& cd build \
+	&& ninja \
+	&& ninja install
+
+ARG VIPS_VERSION=8.14.5
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
-RUN cd /usr/local/src \
-	&& wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
-	&& tar xzf vips-${VIPS_VERSION}.tar.gz \
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz \
+	&& tar xf vips-${VIPS_VERSION}.tar.xz \
 	&& cd vips-${VIPS_VERSION} \
-	&& ./configure --prefix=$VIPSHOME \
-	&& make V=0 \
-	&& make install
+	&& meson setup build \
+		--buildtype release \
+		-Dintrospection=false \
+	&& cd build \
+	&& ninja \
+	&& ninja install \
+	&& ninja test
 
-RUN ls $VIPSHOME/lib
+RUN pip3 install pyvips 
