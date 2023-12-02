@@ -1,6 +1,6 @@
 FROM heroku/heroku:22
 
-# generic build tools  ... libgsf needs intltool
+# generic build tools
 RUN apt-get update \
 	&& apt-get install -y \
 		build-essential \
@@ -17,21 +17,25 @@ RUN pip3 install meson
 #
 # this should only pull in header files and should not create any extra run
 # time dependencies
+# 
+# heroku22 is missing highway, so we stick with orc for now
+#
+# we can't use pdfium since their binaries use a different C++ compiler from
+# the one that libheif builds with
 RUN apt-get install -y \
+	libarchive-dev \
 	glib-2.0-dev \
 	libexpat1-dev \
 	libpango1.0-dev \
 	librsvg2-dev \
-	libpng-dev \
 	libwebp-dev \
 	libjpeg-turbo8-dev \
 	libtiff5-dev \
 	libexif-dev \
 	liblcms2-dev \
-	libgsf-1-dev \
 	liborc-0.4-dev \
 	libimagequant-dev \
-    libpoppler-glib-dev \
+	libpoppler-glib-dev \
 	libcgif-dev \
 	libheif-dev \
 	libfftw3-dev 
@@ -45,9 +49,6 @@ WORKDIR /usr/local/src
 ARG PREFIX=/usr/local
 ENV PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 
-# we can't use pdfium since their binaries use a different C++ compiler from
-# the one that libheif builds with
-
 # use libspng for PNG load and save
 ARG SPNG_VERSION=0.7.4
 ARG SPNG_URL=https://github.com/randy408/libspng/archive/refs/tags
@@ -60,7 +61,7 @@ RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
 	&& ninja \
 	&& ninja install
 
-ARG VIPS_VERSION=8.14.4
+ARG VIPS_VERSION=8.15.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz \
@@ -73,7 +74,7 @@ RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz \
 		-Dradiance=false \
 		-Danalyze=false \
 		-Dmodules=disabled \
-		-Dintrospection=false \
+		-Dintrospection=disabled \
 	&& cd build \
 	&& meson compile \
 	&& meson install
