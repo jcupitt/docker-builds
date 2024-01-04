@@ -17,8 +17,7 @@ RUN apk add \
 	fftw-dev \
 	libpng-dev \
 	libwebp-dev \
-	orc-dev \
-	libgsf-dev 
+	libarchive-dev 
 
 # add these if you like for text rendering, PDF rendering, SVG rendering, 
 # but they will pull in loads of other stuff
@@ -32,14 +31,14 @@ RUN apk add \
 
 WORKDIR /usr/local/src
 
-ARG VIPS_VERSION=8.14.2
+ARG VIPS_VERSION=8.15.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.xz
 
 RUN tar xf vips-${VIPS_VERSION}.tar.xz \
 	&& cd vips-${VIPS_VERSION} \
-	&& meson setup build --buildtype release -Dintrospection=false \
+	&& meson setup build \
 	&& cd build \
 	&& meson compile \
 	&& meson install

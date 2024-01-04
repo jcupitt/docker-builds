@@ -1,10 +1,11 @@
-# Make a pyvips / libvips 8.14 / alpine stack
+# Make a pyvips / libvips 8.15 / alpine stack
 
 # Rebuild the image
 
-  docker pull alpine:latest
-
-	docker build -t pyvips-alpine .
+```shell
+docker pull alpine:latest
+docker build -t pyvips-alpine .
+```
 
 # Run the demo
 
