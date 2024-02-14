@@ -1,0 +1,7 @@
+{
+    "minimum-stability": "dev",
+    "require": {
+        "jcupitt/vips" : "dev-master"
+    }
+
+}
