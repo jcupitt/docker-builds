@@ -7,7 +7,6 @@ RUN apt-get update \
 		software-properties-common \
 		ninja-build \
 		python3-pip \
-		bc \
 		wget 
 
 # we need meson for libvips build
@@ -34,8 +33,8 @@ RUN apt-get install -y \
 
 WORKDIR /usr/local/src
 
-# build the head of the stable 8.13 branch
-ARG VIPS_BRANCH=8.13
+# build the head of the stable 8.15 branch
+ARG VIPS_BRANCH=8.15
 ARG VIPS_URL=https://github.com/libvips/libvips/tarball
 
 RUN mkdir libvips-${VIPS_BRANCH} \
@@ -46,7 +45,7 @@ RUN mkdir libvips-${VIPS_BRANCH} \
 # we don't need GOI
 RUN cd libvips-${VIPS_BRANCH} \
         && rm -rf build \
-        && meson build --libdir lib -Dintrospection=false --buildtype release \
+        && meson build --libdir lib -Dintrospection=disabled \
         && cd build \
         && ninja \
         && ninja test \
